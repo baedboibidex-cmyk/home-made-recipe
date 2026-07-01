@@ -2199,6 +2199,7 @@
                 if (localStorage.getItem('darkMode') === 'true') {
                     document.body.classList.add('dark-mode');
                     darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                    darkModeToggleBtn.innerHTML = '<i class="fas fa-sun"></i>';
                 }
                 
                 // Check login status
@@ -2304,7 +2305,7 @@
             // Featured Recipe Actions
             featuredSave.addEventListener('click', toggleFeaturedSave);
             startCooking.addEventListener('click', () => showNotification('👨‍🍳 Starting your cooking timer for Creamy Mushroom Risotto!'));
-            shareRecipe.addEventListener('click', () => showNotification('📤 Recipe shared successfully!'));
+            shareRecipe.addEventListener('click', handleShareRecipe);
             
             // Shopping List
             addToList.addEventListener('click', addToShoppingList);
@@ -2597,6 +2598,12 @@
                 card.style.opacity = '1';
                 card.style.cursor = 'pointer';
             });
+            
+            // SHOW TRAVEL SECTION FOR PREMIUM USERS
+            const travelSection = document.getElementById('travelSection');
+            if (travelSection) {
+                travelSection.style.display = 'block';
+            }
         }
         
         function lockPremiumContent() {
@@ -2620,6 +2627,12 @@
                 card.style.opacity = '0.6';
                 card.style.cursor = 'not-allowed';
             });
+            
+            // HIDE TRAVEL SECTION
+            const travelSection = document.getElementById('travelSection');
+            if (travelSection) {
+                travelSection.style.display = 'none';
+            }
         }
         
         function addToShoppingList() {
@@ -2628,6 +2641,22 @@
         
         function clearShoppingList() {
             showNotification('🧹 Shopping list cleared!');
+        }
+        
+        function handleShareRecipe() {
+            const url = window.location.href;
+            if (navigator.share) {
+                // Mobile sharing (iOS/Android)
+                navigator.share({
+                    title: 'Check out this recipe!',
+                    url: url
+                }).catch(console.error);
+            } else {
+                // Desktop: copy to clipboard
+                navigator.clipboard.writeText(url).then(() => {
+                    showNotification('🔗 Link copied! Paste anywhere to share.');
+                });
+            }
         }
         
         function toggleDarkMode() {
@@ -2648,4 +2677,25 @@
         }
         
         function showNotification(message) {
-            // Remove Remove
+            // Remove existing notifications
+            const existing = document.querySelector('.notification');
+            if (existing) existing.remove();
+            
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.innerHTML = message.replace(/\n/g, '<br>');
+            
+            // Add to body
+            document.body.appendChild(notification);
+            
+            // Auto-remove after animation
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.remove();
+                }
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
