@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Made Recipe - Premium Cooking App</title>
+    <title>Home Made Recipe - Premium Cooking & Lifestyle App</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -18,6 +18,19 @@
             --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             --radius: 12px;
             --transition: all 0.3s ease;
+            --body-bg: #f5f7fa;
+            --text-color: #2f3542;
+        }
+        
+        .dark-mode {
+            --body-bg: #121212;
+            --text-color: #e0e0e0;
+            --primary: #ff5252;
+            --secondary: #00cec9;
+            --dark: #1e1e1e;
+            --light: #2d2d2d;
+            --gray: #888;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         }
         
         * {
@@ -28,11 +41,12 @@
         
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
-            color: var(--dark);
+            background: var(--body-bg);
+            color: var(--text-color);
             line-height: 1.6;
             padding-bottom: 80px;
             overflow-x: hidden;
+            transition: var(--transition);
         }
         
         .container {
@@ -72,11 +86,20 @@
             animation: slideUp 0.4s ease;
         }
         
+        .dark-mode .modal-content {
+            background: #2d2d2d;
+            color: #e0e0e0;
+        }
+        
         .modal-title {
             font-size: 1.8rem;
             margin-bottom: 20px;
             text-align: center;
             color: var(--dark);
+        }
+        
+        .dark-mode .modal-title {
+            color: #e0e0e0;
         }
         
         .modal-close {
@@ -96,6 +119,10 @@
             transform: scale(1.2);
         }
         
+        .dark-mode .modal-close {
+            color: #888;
+        }
+        
         .age-verify-content {
             text-align: center;
         }
@@ -106,10 +133,18 @@
             color: var(--primary);
         }
         
+        .dark-mode .age-verify-title {
+            color: var(--primary);
+        }
+        
         .age-verify-desc {
             margin: 15px 0 30px;
             color: #555;
             font-size: 1.1rem;
+        }
+        
+        .dark-mode .age-verify-desc {
+            color: #ccc;
         }
         
         .age-buttons {
@@ -147,9 +182,18 @@
             color: var(--dark);
         }
         
+        .dark-mode .age-btn.no {
+            background: #333;
+            color: #e0e0e0;
+        }
+        
         .age-btn.no:hover {
             background: #d0d0d0;
             transform: translateY(-2px);
+        }
+        
+        .dark-mode .age-btn.no:hover {
+            background: #444;
         }
         
         /* Login Modal */
@@ -170,18 +214,35 @@
             color: var(--dark);
         }
         
+        .dark-mode .form-group label {
+            color: #e0e0e0;
+        }
+        
         .form-group input {
             padding: 12px 15px;
             border: 2px solid #ddd;
             border-radius: 8px;
             font-size: 1rem;
             transition: var(--transition);
+            background: white;
+            color: var(--text-color);
+        }
+        
+        .dark-mode .form-group input {
+            background: #333;
+            color: #e0e0e0;
+            border-color: #444;
         }
         
         .form-group input:focus {
             border-color: var(--secondary);
             outline: none;
             box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.2);
+        }
+        
+        .dark-mode .form-group input:focus {
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(0, 206, 201, 0.2);
         }
         
         .auth-buttons {
@@ -211,10 +272,18 @@
             color: white;
         }
         
+        .dark-mode .login-btn, .dark-mode .signup-btn {
+            color: #e0e0e0;
+        }
+        
         .switch-auth {
             text-align: center;
             margin-top: 20px;
             color: var(--gray);
+        }
+        
+        .dark-mode .switch-auth {
+            color: #888;
         }
         
         .switch-auth a {
@@ -222,6 +291,10 @@
             text-decoration: none;
             font-weight: 600;
             cursor: pointer;
+        }
+        
+        .dark-mode .switch-auth a {
+            color: var(--secondary);
         }
         
         .switch-auth a:hover {
@@ -237,6 +310,10 @@
             position: sticky;
             top: 0;
             z-index: 1000;
+        }
+        
+        .dark-mode header {
+            background: linear-gradient(120deg, #1a1a2e, #16213e);
         }
         
         .header-content {
@@ -255,6 +332,10 @@
         
         .logo i {
             margin-right: 10px;
+            color: var(--secondary);
+        }
+        
+        .dark-mode .logo i {
             color: var(--secondary);
         }
         
@@ -313,6 +394,10 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
         
+        .dark-mode .premium-badge {
+            background: #b89d2e;
+        }
+        
         .btn {
             background: var(--secondary);
             color: white;
@@ -328,9 +413,17 @@
             box-shadow: 0 4px 10px rgba(78, 205, 196, 0.3);
         }
         
+        .dark-mode .btn {
+            box-shadow: 0 4px 10px rgba(0, 206, 201, 0.3);
+        }
+        
         .btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 15px rgba(78, 205, 196, 0.4);
+        }
+        
+        .dark-mode .btn:hover {
+            box-shadow: 0 6px 15px rgba(0, 206, 201, 0.4);
         }
         
         .btn-primary {
@@ -342,6 +435,15 @@
             box-shadow: 0 6px 15px rgba(255, 107, 107, 0.4);
         }
         
+        .dark-mode .btn-primary {
+            background: var(--primary);
+            box-shadow: 0 4px 10px rgba(255, 82, 82, 0.3);
+        }
+        
+        .dark-mode .btn-primary:hover {
+            box-shadow: 0 6px 15px rgba(255, 82, 82, 0.4);
+        }
+        
         .btn-premium {
             background: var(--premium-gold);
             color: var(--dark);
@@ -351,6 +453,16 @@
         .btn-premium:hover {
             box-shadow: 0 6px 15px rgba(212, 175, 55, 0.4);
             transform: translateY(-2px);
+        }
+        
+        .dark-mode .btn-premium {
+            background: #b89d2e;
+            color: #e0e0e0;
+            box-shadow: 0 4px 10px rgba(184, 157, 46, 0.3);
+        }
+        
+        .dark-mode .btn-premium:hover {
+            box-shadow: 0 6px 15px rgba(184, 157, 46, 0.4);
         }
         
         .btn i {
@@ -379,6 +491,10 @@
             transform: scale(1.05);
         }
         
+        .dark-mode .user-profile {
+            background: var(--secondary);
+        }
+        
         .dropdown-menu {
             position: absolute;
             top: 50px;
@@ -390,6 +506,10 @@
             padding: 15px 0;
             z-index: 1000;
             display: none;
+        }
+        
+        .dark-mode .dropdown-menu {
+            background: #2d2d2d;
         }
         
         .dropdown-menu.active {
@@ -408,9 +528,18 @@
             font-weight: 500;
         }
         
+        .dark-mode .dropdown-item {
+            color: #e0e0e0;
+        }
+        
         .dropdown-item:hover {
             background: var(--light);
             color: var(--primary);
+        }
+        
+        .dark-mode .dropdown-item:hover {
+            background: #333;
+            color: var(--secondary);
         }
         
         .dropdown-item i {
@@ -429,8 +558,16 @@
             font-size: 0.9rem;
         }
         
+        .dark-mode .premium-status {
+            background: rgba(184, 157, 46, 0.2);
+        }
+        
         .premium-status i {
             color: var(--premium-gold);
+        }
+        
+        .dark-mode .premium-status i {
+            color: #b89d2e;
         }
         
         /* Main Content */
@@ -468,6 +605,10 @@
             font-weight: bold;
         }
         
+        .dark-mode .premium-section-tag {
+            background: #b89d2e;
+        }
+        
         /* Categories Section */
         .categories {
             display: flex;
@@ -491,8 +632,16 @@
             position: relative;
         }
         
+        .dark-mode .category-card {
+            background: #2d2d2d;
+        }
+        
         .category-card:hover, .category-card.active {
             transform: translateY(-5px);
+            border-color: var(--secondary);
+        }
+        
+        .dark-mode .category-card:hover, .dark-mode .category-card.active {
             border-color: var(--secondary);
         }
         
@@ -514,14 +663,241 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
         
+        .dark-mode .category-card.premium::after {
+            background: #b89d2e;
+        }
+        
         .category-card i {
             font-size: 2rem;
             margin-bottom: 10px;
             color: var(--primary);
         }
         
+        .dark-mode .category-card i {
+            color: var(--primary);
+        }
+        
         .category-card.active i {
             color: var(--secondary);
+        }
+        
+        .dark-mode .category-card.active i {
+            color: var(--secondary);
+        }
+        
+        /* Shopping List */
+        .shopping-list {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 25px;
+            margin: 25px 0;
+        }
+        
+        .dark-mode .shopping-list {
+            background: #2d2d2d;
+        }
+        
+        .shopping-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .shopping-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .shopping-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .shopping-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .dark-mode .shopping-item {
+            border-bottom: 1px solid #444;
+        }
+        
+        .shopping-item:last-child {
+            border-bottom: none;
+        }
+        
+        .shopping-item .item-name {
+            font-size: 1.1rem;
+        }
+        
+        .shopping-item .item-quantity {
+            background: var(--light);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .dark-mode .shopping-item .item-quantity {
+            background: #333;
+            color: #e0e0e0;
+        }
+        
+        .shopping-item .item-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .shopping-item .item-actions button {
+            background: none;
+            border: none;
+            color: var(--gray);
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+        
+        .shopping-item .item-actions button:hover {
+            color: var(--primary);
+        }
+        
+        .dark-mode .shopping-item .item-actions button:hover {
+            color: var(--primary);
+        }
+        
+        /* Social Feed */
+        .social-feed {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 25px;
+            margin: 25px 0;
+        }
+        
+        .dark-mode .social-feed {
+            background: #2d2d2d;
+        }
+        
+        .feed-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .feed-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .feed-post {
+            margin-bottom: 25px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .dark-mode .feed-post {
+            border-bottom: 1px solid #444;
+        }
+        
+        .post-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .post-author {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .author-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .author-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .author-name {
+            font-weight: 600;
+        }
+        
+        .post-time {
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+        
+        .dark-mode .post-time {
+            color: #888;
+        }
+        
+        .post-content {
+            margin-bottom: 15px;
+        }
+        
+        .post-image {
+            width: 100%;
+            height: 250px;
+            border-radius: var(--radius);
+            object-fit: cover;
+            margin-bottom: 15px;
+        }
+        
+        .post-caption {
+            margin-bottom: 15px;
+        }
+        
+        .post-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .post-action {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--gray);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .post-action:hover {
+            color: var(--primary);
+        }
+        
+        .dark-mode .post-action {
+            color: #888;
+        }
+        
+        .post-action:hover {
+            color: var(--primary);
+        }
+        
+        .post-likes {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+        
+        .like-count {
+            font-weight: 600;
         }
         
         /* Recipes Grid */
@@ -541,9 +917,17 @@
             position: relative;
         }
         
+        .dark-mode .recipe-card {
+            background: #2d2d2d;
+        }
+        
         .recipe-card:hover {
             transform: translateY(-8px);
             box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .dark-mode .recipe-card:hover {
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
         }
         
         .recipe-img {
@@ -590,6 +974,10 @@
             z-index: 10;
         }
         
+        .dark-mode .recipe-card.premium::after {
+            background: #b89d2e;
+        }
+        
         .recipe-content {
             padding: 20px;
         }
@@ -600,12 +988,20 @@
             font-weight: 700;
         }
         
+        .dark-mode .recipe-title {
+            color: #e0e0e0;
+        }
+        
         .recipe-meta {
             display: flex;
             justify-content: space-between;
             color: var(--gray);
             font-size: 0.9rem;
             margin-bottom: 15px;
+        }
+        
+        .dark-mode .recipe-meta {
+            color: #888;
         }
         
         .recipe-desc {
@@ -617,6 +1013,10 @@
             overflow: hidden;
         }
         
+        .dark-mode .recipe-desc {
+            color: #ccc;
+        }
+        
         .recipe-actions {
             display: flex;
             justify-content: space-between;
@@ -626,6 +1026,10 @@
         .recipe-rating {
             color: var(--warning);
             font-weight: bold;
+        }
+        
+        .dark-mode .recipe-rating {
+            color: var(--warning);
         }
         
         .save-btn {
@@ -648,6 +1052,15 @@
             background: rgba(255, 107, 107, 0.1);
         }
         
+        .dark-mode .save-btn {
+            color: #888;
+        }
+        
+        .dark-mode .save-btn:hover, .dark-mode .save-btn.active {
+            color: var(--primary);
+            background: rgba(255, 82, 82, 0.1);
+        }
+        
         .save-btn.active {
             color: var(--primary);
         }
@@ -662,6 +1075,10 @@
             display: none;
         }
         
+        .dark-mode .recipe-detail {
+            background: #2d2d2d;
+        }
+        
         .detail-header {
             display: flex;
             justify-content: space-between;
@@ -674,10 +1091,18 @@
             margin-bottom: 10px;
         }
         
+        .dark-mode .detail-title {
+            color: #e0e0e0;
+        }
+        
         .detail-meta {
             display: flex;
             margin-bottom: 20px;
             color: var(--gray);
+        }
+        
+        .dark-mode .detail-meta {
+            color: #888;
         }
         
         .detail-meta div {
@@ -689,6 +1114,10 @@
         .detail-meta i {
             margin-right: 8px;
             color: var(--primary);
+        }
+        
+        .dark-mode .detail-meta i {
+            color: var(--secondary);
         }
         
         .detail-img {
@@ -711,6 +1140,10 @@
             display: inline-block;
         }
         
+        .dark-mode .section-subtitle {
+            border-bottom: 2px solid var(--secondary);
+        }
+        
         .ingredients-list {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -726,10 +1159,18 @@
             align-items: center;
         }
         
+        .dark-mode .ingredient {
+            background: #333;
+        }
+        
         .ingredient i {
             color: var(--primary);
             margin-right: 10px;
             font-size: 1.1rem;
+        }
+        
+        .dark-mode .ingredient i {
+            color: var(--secondary);
         }
         
         .instructions-list {
@@ -744,6 +1185,10 @@
             margin-bottom: 15px;
             padding-bottom: 15px;
             border-bottom: 1px dashed #eee;
+        }
+        
+        .dark-mode .instruction-step {
+            border-bottom: 1px dashed #444;
         }
         
         .instruction-step:last-child {
@@ -769,6 +1214,10 @@
             font-size: 0.9rem;
         }
         
+        .dark-mode .instruction-step::before {
+            background: var(--secondary);
+        }
+        
         .action-buttons {
             display: flex;
             gap: 15px;
@@ -782,6 +1231,10 @@
             text-align: center;
             padding: 25px 0;
             margin-top: 40px;
+        }
+        
+        .dark-mode footer {
+            background: #1a1a2e;
         }
         
         /* Animations */
@@ -912,6 +1365,10 @@
             overflow: hidden;
         }
         
+        .dark-mode .premium-banner {
+            background: linear-gradient(135deg, #b89d2e, #a08828);
+        }
+        
         .premium-banner::before {
             content: '★';
             position: absolute;
@@ -949,11 +1406,123 @@
             animation-fill-mode: forwards;
         }
         
+        .dark-mode .notification {
+            background: #1a1a2e;
+        }
+        
         @keyframes fadeOut {
             to {
                 opacity: 0;
                 transform: translateY(20px);
             }
+        }
+        
+        /* Dark Mode Toggle */
+        .dark-mode-toggle {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--secondary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 100;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        .dark-mode-toggle:hover {
+            transform: scale(1.1);
+        }
+        
+        /* Empty Space Fixer */
+        .empty-space {
+            background: white;
+            border-radius: var(--radius);
+            padding: 30px;
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .dark-mode .empty-space {
+            background: #2d2d2d;
+        }
+        
+        .empty-space h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+        
+        .empty-space p {
+            color: var(--gray);
+            margin-bottom: 20px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .empty-space .btn {
+            background: var(--secondary);
+            color: white;
+        }
+        
+        .dark-mode .empty-space .btn {
+            background: var(--secondary);
+        }
+        
+        /* New Features Section */
+        .new-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 25px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        .dark-mode .feature-card {
+            background: #2d2d2d;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: var(--secondary);
+        }
+        
+        .dark-mode .feature-icon {
+            color: var(--secondary);
+        }
+        
+        .feature-title {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+        }
+        
+        .feature-desc {
+            color: var(--gray);
+            line-height: 1.6;
+        }
+        
+        .dark-mode .feature-desc {
+            color: #888;
         }
     </style>
 </head>
@@ -963,7 +1532,7 @@
         <div class="modal-content">
             <button class="modal-close" id="ageClose">&times;</button>
             <div class="age-verify-content">
-                <div class="age-verify-title">	verify18+</div>
+                <div class="age-verify-title">verify18+</div>
                 <h2 class="modal-title">Age Verification Required</h2>
                 <p class="age-verify-desc">
                     This app contains recipes and cooking methods that may include alcohol, 
@@ -1032,6 +1601,8 @@
                     <li>🌍 Cultural cooking traditions & history</li>
                     <li>🎥 Video tutorials from master chefs</li>
                     <li>✨ Ad-free experience</li>
+                    <li>📸 Post your own cooking videos & food photos</li>
+                    <li>🏨 Share lifestyle content (hotels, restaurants, travel)</li>
                 </ul>
             </div>
             
@@ -1073,11 +1644,20 @@
                         <a href="#" class="dropdown-item" id="myAccount">
                             <i class="fas fa-user"></i> My Account
                         </a>
+                        <a href="#" class="dropdown-item" id="myVideos">
+                            <i class="fas fa-video"></i> My Videos
+                        </a>
+                        <a href="#" class="dropdown-item" id="myLifestyle">
+                            <i class="fas fa-utensils"></i> My Lifestyle
+                        </a>
                         <a href="#" class="dropdown-item" id="logoutBtn">
                             <i class="fas fa-sign-out-alt"></i> Log Out
                         </a>
                     </div>
                 </div>
+                <button class="btn" id="darkModeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
             </div>
         </div>
     </header>
@@ -1182,6 +1762,227 @@
                 <button class="btn" id="shareRecipe">
                     <i class="fas fa-share-alt"></i> Share Recipe
                 </button>
+            </div>
+        </div>
+        
+        <!-- Shopping List Section -->
+        <div class="shopping-list">
+            <div class="shopping-header">
+                <h2 class="shopping-title">Your Shopping List</h2>
+                <div class="shopping-actions">
+                    <button class="btn" id="addToList">
+                        <i class="fas fa-plus"></i> Add to List
+                    </button>
+                    <button class="btn" id="clearList">
+                        <i class="fas fa-trash"></i> Clear
+                    </button>
+                </div>
+            </div>
+            
+            <div class="shopping-items">
+                <div class="shopping-item">
+                    <div class="item-name">Arborio rice</div>
+                    <div class="item-quantity">1.5 cups</div>
+                    <div class="item-actions">
+                        <button class="item-btn" id="add-1">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                        <button class="item-btn" id="remove-1">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="shopping-item">
+                    <div class="item-name">Mushrooms, sliced</div>
+                    <div class="item-quantity">8 oz</div>
+                    <div class="item-actions">
+                        <button class="item-btn" id="add-2">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                        <button class="item-btn" id="remove-2">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="shopping-item">
+                    <div class="item-name">Fresh parsley</div>
+                    <div class="item-quantity">1 bunch</div>
+                    <div class="item-actions">
+                        <button class="item-btn" id="add-3">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                        <button class="item-btn" id="remove-3">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- New Features Section -->
+        <div class="section-title">
+            <h2>What's New</h2>
+        </div>
+        <div class="new-features">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-video"></i>
+                </div>
+                <h3 class="feature-title">Cooking Videos</h3>
+                <p class="feature-desc">Post your own cooking videos and watch others' creations. Share your techniques and get feedback from the community.</p>
+                <button class="btn" id="postVideo">
+                    <i class="fas fa-upload"></i> Post Video
+                </button>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-utensils"></i>
+                </div>
+                <h3 class="feature-title">Lifestyle Sharing</h3>
+                <p class="feature-desc">Share your food adventures - from fancy restaurants to cozy home meals. Show where you eat, travel, and explore new cuisines.</p>
+                <button class="btn" id="postLifestyle">
+                    <i class="fas fa-camera"></i> Post Lifestyle
+                </button>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-hotel"></i>
+                </div>
+                <h3 class="feature-title">Travel & Food</h3>
+                <p class="feature-desc">Discover restaurants and food experiences at your travel destinations. Share where you've eaten and get recommendations for your next trip.</p>
+                <button class="btn" id="findHotels">
+                    <i class="fas fa-map-marked-alt"></i> Find Restaurants
+                </button>
+            </div>
+        </div>
+        
+        <!-- Empty Space Fixer -->
+        <div class="empty-space">
+            <h3>Connect with Food Lovers</h3>
+            <p>Join our community of food enthusiasts who share their cooking experiences, food adventures, and culinary creations. Post your own content and interact with others!</p>
+            <button class="btn" id="joinCommunity">
+                <i class="fas fa-user-friends"></i> Join the Community
+            </button>
+        </div>
+        
+        <!-- Social Feed -->
+        <div class="social-feed">
+            <div class="feed-header">
+                <h2 class="feed-title">Community Feed</h2>
+                <button class="btn" id="refreshFeed">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+            </div>
+            
+            <!-- Post 1 -->
+            <div class="feed-post">
+                <div class="post-header">
+                    <div class="post-author">
+                        <div class="author-avatar">A</div>
+                        <div class="author-info">
+                            <div class="author-name">Alex Johnson</div>
+                            <div class="post-time">2 hours ago</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="post-content">
+                    <img src="https://images.unsplash.com/photo-1571115177098-24ec42ed204d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" 
+                         alt="Sushi" class="post-image">
+                    <div class="post-caption">
+                        <p>Just mastered this homemade sushi roll! Took me 3 tries but finally got the rice perfect. What do you think? #sushilover #homemade</p>
+                    </div>
+                </div>
+                
+                <div class="post-likes">
+                    <div><i class="fas fa-heart"></i> <span class="like-count">248</span></div>
+                </div>
+                
+                <div class="post-actions">
+                    <div class="post-action">
+                        <i class="far fa-heart"></i> Like
+                    </div>
+                    <div class="post-action">
+                        <i class="far fa-comment"></i> Comment
+                    </div>
+                    <div class="post-action">
+                        <i class="far fa-share-square"></i> Share
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Post 2 -->
+            <div class="feed-post">
+                <div class="post-header">
+                    <div class="post-author">
+                        <div class="author-avatar">M</div>
+                        <div class="author-info">
+                            <div class="author-name">Maria Garcia</div>
+                            <div class="post-time">5 hours ago</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="post-content">
+                    <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1160&q=80" 
+                         alt="Avocado Toast" class="post-image">
+                    <div class="post-caption">
+                        <p>Weekend breakfast is served! Added a sprinkle of chili flakes to my avocado toast. What's your favorite breakfast? #avocadotoast #weekendvibes</p>
+                    </div>
+                </div>
+                
+                <div class="post-likes">
+                    <div><i class="fas fa-heart"></i> <span class="like-count">312</span></div>
+                </div>
+                
+                <div class="post-actions">
+                    <div class="post-action">
+                        <i class="far fa-heart"></i> Like
+                    </div>
+                    <div class="post-action">
+                        <i class="far fa-comment"></i> Comment
+                    </div>
+                    <div class="post-action">
+                        <i class="far fa-share-square"></i> Share
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Post 3 -->
+            <div class="feed-post">
+                <div class="post-header">
+                    <div class="post-author">
+                        <div class="author-avatar">T</div>
+                        <div class="author-info">
+                            <div class="author-name">Tom Wilson</div>
+                            <div class="post-time">1 day ago</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="post-content">
+                    <img src="https://images.unsplash.com/photo-1571115177098-24ec42ed204d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" 
+                         alt="Thai Curry" class="post-image">
+                    <div class="post-caption">
+                        <p>Just got back from Thailand and tried to recreate this amazing green curry at home. The lemongrass was hard to find but worth it! #thaicurry #travel #foodie</p>
+                    </div>
+                </div>
+                
+                <div class="post-likes">
+                    <div><i class="fas fa-heart"></i> <span class="like-count">487</span></div>
+                </div>
+                
+                <div class="post-actions">
+                    <div class="post-action">
+                        <i class="far fa-heart"></i> Like
+                    </div>
+                    <div class="post-action">
+                        <i class="far fa-comment"></i> Comment
+                    </div>
+                    <div class="post-action">
+                        <i class="far fa-share-square"></i> Share
+                    </div>
+                </div>
             </div>
         </div>
         
@@ -1348,6 +2149,11 @@
         </div>
     </footer>
     
+    <!-- Dark Mode Toggle -->
+    <button class="dark-mode-toggle" id="darkModeToggleBtn">
+        <i class="fas fa-moon"></i>
+    </button>
+    
     <script>
         // DOM Elements
         const ageModal = document.getElementById('ageModal');
@@ -1361,11 +2167,22 @@
         const logoutBtn = document.getElementById('logoutBtn');
         const savedRecipes = document.getElementById('savedRecipes');
         const myAccount = document.getElementById('myAccount');
+        const myVideos = document.getElementById('myVideos');
+        const myLifestyle = document.getElementById('myLifestyle');
         const subscribeBtn = document.getElementById('subscribeBtn');
         const searchInput = document.getElementById('searchInput');
         const featuredSave = document.getElementById('featuredSave');
         const startCooking = document.getElementById('startCooking');
         const shareRecipe = document.getElementById('shareRecipe');
+        const addToList = document.getElementById('addToList');
+        const clearList = document.getElementById('clearList');
+        const postVideo = document.getElementById('postVideo');
+        const postLifestyle = document.getElementById('postLifestyle');
+        const findHotels = document.getElementById('findHotels');
+        const joinCommunity = document.getElementById('joinCommunity');
+        const refreshFeed = document.getElementById('refreshFeed');
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const darkModeToggleBtn = document.getElementById('darkModeToggleBtn');
         
         // Initialize app on load
         document.addEventListener('DOMContentLoaded', initApp);
@@ -1378,6 +2195,12 @@
             if (!localStorage.getItem('ageVerified')) {
                 ageModal.classList.add('active');
             } else {
+                // Check dark mode preference
+                if (localStorage.getItem('darkMode') === 'true') {
+                    document.body.classList.add('dark-mode');
+                    darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                }
+                
                 // Check login status
                 if (localStorage.getItem('userLoggedIn') === 'true') {
                     const email = localStorage.getItem('userEmail');
@@ -1446,6 +2269,16 @@
                 e.preventDefault();
                 showAccountInfo();
             });
+            myVideos.addEventListener('click', (e) => {
+                e.preventDefault();
+                showNotification('🎥 Creating your first cooking video!');
+                premiumModal.classList.add('active');
+            });
+            myLifestyle.addEventListener('click', (e) => {
+                e.preventDefault();
+                showNotification('📸 Share your food adventures and travel experiences!');
+                premiumModal.classList.add('active');
+            });
             
             // Recipe Actions
             document.querySelectorAll('.save-btn').forEach(btn => {
@@ -1472,6 +2305,39 @@
             featuredSave.addEventListener('click', toggleFeaturedSave);
             startCooking.addEventListener('click', () => showNotification('👨‍🍳 Starting your cooking timer for Creamy Mushroom Risotto!'));
             shareRecipe.addEventListener('click', () => showNotification('📤 Recipe shared successfully!'));
+            
+            // Shopping List
+            addToList.addEventListener('click', addToShoppingList);
+            clearList.addEventListener('click', clearShoppingList);
+            
+            // New Features
+            postVideo.addEventListener('click', () => {
+                showNotification('🎥 Posting your cooking video!');
+                premiumModal.classList.add('active');
+            });
+            
+            postLifestyle.addEventListener('click', () => {
+                showNotification('📸 Sharing your food adventure!');
+                premiumModal.classList.add('active');
+            });
+            
+            findHotels.addEventListener('click', () => {
+                showNotification('🏨 Finding the best restaurants for your next trip!');
+                premiumModal.classList.add('active');
+            });
+            
+            joinCommunity.addEventListener('click', () => {
+                showNotification('👨‍👩‍👧‍👦 Welcome to our food community!');
+                premiumModal.classList.add('active');
+            });
+            
+            refreshFeed.addEventListener('click', () => {
+                showNotification('🔄 Refreshing community feed...');
+            });
+            
+            // Dark Mode Toggle
+            darkModeToggle.addEventListener('click', toggleDarkMode);
+            darkModeToggleBtn.addEventListener('click', toggleDarkMode);
             
             // Close dropdown when clicking outside
             document.addEventListener('click', (e) => {
@@ -1756,26 +2622,30 @@
             });
         }
         
-        function showNotification(message) {
-            // Remove existing notifications
-            const existing = document.querySelector('.notification');
-            if (existing) existing.remove();
-            
-            // Create notification element
-            const notification = document.createElement('div');
-            notification.className = 'notification';
-            notification.innerHTML = message.replace(/\n/g, '<br>');
-            
-            // Add to body
-            document.body.appendChild(notification);
-            
-            // Auto-remove after animation
-            setTimeout(() => {
-                if (notification.parentNode) {
-                    notification.remove();
-                }
-            }, 3000);
+        function addToShoppingList() {
+            showNotification('🛒 Added ingredients to your shopping list!');
         }
-    </script>
-</body>
-</html>
+        
+        function clearShoppingList() {
+            showNotification('🧹 Shopping list cleared!');
+        }
+        
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const isDarkMode = document.body.classList.contains('dark-mode');
+            localStorage.setItem('darkMode', isDarkMode);
+            
+            // Update toggle icon
+            if (isDarkMode) {
+                darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                darkModeToggleBtn.innerHTML = '<i class="fas fa-sun"></i>';
+                showNotification('🌙 Dark mode activated');
+            } else {
+                darkModeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                darkModeToggleBtn.innerHTML = '<i class="fas fa-moon"></i>';
+                showNotification('☀️ Light mode activated');
+            }
+        }
+        
+        function showNotification(message) {
+            // Remove Remove
