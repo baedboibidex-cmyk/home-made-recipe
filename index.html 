@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Made Recipe - Premium Cooking & Lifestyle App</title>
+    <title>Home Made Recipe - Social Cooking Platform</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -20,6 +20,8 @@
             --transition: all 0.3s ease;
             --body-bg: #f5f7fa;
             --text-color: #2f3542;
+            --video-bg: #121212;
+            --video-text: #e0e0e0;
         }
         
         .dark-mode {
@@ -31,6 +33,8 @@
             --light: #2d2d2d;
             --gray: #888;
             --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            --video-bg: #000000;
+            --video-text: #ffffff;
         }
         
         * {
@@ -56,252 +60,7 @@
             padding: 0 15px;
         }
         
-        /* Modals */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 10000;
-            justify-content: center;
-            align-items: center;
-            animation: fadeIn 0.3s ease;
-        }
-        
-        .modal.active {
-            display: flex;
-        }
-        
-        .modal-content {
-            background: white;
-            border-radius: var(--radius);
-            width: 90%;
-            max-width: 500px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            position: relative;
-            animation: slideUp 0.4s ease;
-        }
-        
-        .dark-mode .modal-content {
-            background: #2d2d2d;
-            color: #e0e0e0;
-        }
-        
-        .modal-title {
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-            text-align: center;
-            color: var(--dark);
-        }
-        
-        .dark-mode .modal-title {
-            color: #e0e0e0;
-        }
-        
-        .modal-close {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: var(--gray);
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        
-        .modal-close:hover {
-            color: var(--primary);
-            transform: scale(1.2);
-        }
-        
-        .dark-mode .modal-close {
-            color: #888;
-        }
-        
-        .age-verify-content {
-            text-align: center;
-        }
-        
-        .age-verify-title {
-            font-size: 2.2rem;
-            margin-bottom: 15px;
-            color: var(--primary);
-        }
-        
-        .dark-mode .age-verify-title {
-            color: var(--primary);
-        }
-        
-        .age-verify-desc {
-            margin: 15px 0 30px;
-            color: #555;
-            font-size: 1.1rem;
-        }
-        
-        .dark-mode .age-verify-desc {
-            color: #ccc;
-        }
-        
-        .age-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 20px;
-        }
-        
-        .age-btn {
-            padding: 12px 30px;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: var(--transition);
-            border: none;
-            width: 120px;
-        }
-        
-        .age-btn.yes {
-            background: var(--primary);
-            color: white;
-            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
-        }
-        
-        .age-btn.yes:hover {
-            background: #ff5252;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.6);
-        }
-        
-        .age-btn.no {
-            background: #e0e0e0;
-            color: var(--dark);
-        }
-        
-        .dark-mode .age-btn.no {
-            background: #333;
-            color: #e0e0e0;
-        }
-        
-        .age-btn.no:hover {
-            background: #d0d0d0;
-            transform: translateY(-2px);
-        }
-        
-        .dark-mode .age-btn.no:hover {
-            background: #444;
-        }
-        
-        /* Login Modal */
-        .login-form {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        
-        .form-group label {
-            font-weight: 500;
-            color: var(--dark);
-        }
-        
-        .dark-mode .form-group label {
-            color: #e0e0e0;
-        }
-        
-        .form-group input {
-            padding: 12px 15px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: var(--transition);
-            background: white;
-            color: var(--text-color);
-        }
-        
-        .dark-mode .form-group input {
-            background: #333;
-            color: #e0e0e0;
-            border-color: #444;
-        }
-        
-        .form-group input:focus {
-            border-color: var(--secondary);
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.2);
-        }
-        
-        .dark-mode .form-group input:focus {
-            border-color: var(--secondary);
-            box-shadow: 0 0 0 3px rgba(0, 206, 201, 0.2);
-        }
-        
-        .auth-buttons {
-            display: flex;
-            gap: 15px;
-            margin-top: 10px;
-        }
-        
-        .auth-btn {
-            flex: 1;
-            padding: 12px;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            border: none;
-            font-size: 1rem;
-        }
-        
-        .login-btn {
-            background: var(--primary);
-            color: white;
-        }
-        
-        .signup-btn {
-            background: var(--secondary);
-            color: white;
-        }
-        
-        .dark-mode .login-btn, .dark-mode .signup-btn {
-            color: #e0e0e0;
-        }
-        
-        .switch-auth {
-            text-align: center;
-            margin-top: 20px;
-            color: var(--gray);
-        }
-        
-        .dark-mode .switch-auth {
-            color: #888;
-        }
-        
-        .switch-auth a {
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 600;
-            cursor: pointer;
-        }
-        
-        .dark-mode .switch-auth a {
-            color: var(--secondary);
-        }
-        
-        .switch-auth a:hover {
-            text-decoration: underline;
-        }
-        
-        /* Header Styles */
+        /* Navigation & Header */
         header {
             background: linear-gradient(120deg, var(--dark), #1e2734);
             color: white;
@@ -310,16 +69,13 @@
             position: sticky;
             top: 0;
             z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         
         .dark-mode header {
             background: linear-gradient(120deg, #1a1a2e, #16213e);
-        }
-        
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
         }
         
         .logo {
@@ -568,6 +324,539 @@
         
         .dark-mode .premium-status i {
             color: #b89d2e;
+        }
+        
+        /* Video Feed Styles */
+        .video-feed {
+            background: var(--video-bg);
+            color: var(--video-text);
+            padding: 0;
+            margin: 0;
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        .video-container {
+            position: relative;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .video-header {
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .video-header h2 {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .video-header .btn {
+            background: none;
+            border: none;
+            color: var(--video-text);
+            font-size: 1.2rem;
+            padding: 5px;
+        }
+        
+        .video-player {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            background: #000;
+            overflow: hidden;
+        }
+        
+        .video-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+        }
+        
+        .video-placeholder i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: var(--secondary);
+        }
+        
+        .video-placeholder h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .video-placeholder p {
+            color: #aaa;
+            max-width: 70%;
+        }
+        
+        .video-actions {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+        }
+        
+        .video-action {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .video-action:hover {
+            transform: scale(1.2);
+        }
+        
+        .video-action i {
+            margin-bottom: 5px;
+            font-size: 1.8rem;
+        }
+        
+        .video-action .count {
+            font-size: 0.9rem;
+        }
+        
+        .video-info {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            width: 80%;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            padding: 10px 15px;
+            backdrop-filter: blur(5px);
+        }
+        
+        .video-info .author {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 5px;
+        }
+        
+        .author-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .author-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .author-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .video-caption {
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+        
+        .video-tags {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+        }
+        
+        .video-tag {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 3px 8px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+        }
+        
+        /* Profile Page */
+        .profile-page {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .dark-mode .profile-page {
+            background: #1e1e1e;
+        }
+        
+        .profile-sidebar {
+            background: white;
+            border-radius: var(--radius);
+            padding: 25px;
+            box-shadow: var(--shadow);
+        }
+        
+        .dark-mode .profile-sidebar {
+            background: #2d2d2d;
+        }
+        
+        .profile-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: var(--secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+        
+        .profile-name {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .profile-username {
+            color: var(--gray);
+            margin-bottom: 20px;
+        }
+        
+        .profile-stats {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-bottom: 25px;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+        
+        .stat-label {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        .profile-actions {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+        
+        .profile-actions .btn {
+            flex: 1;
+            padding: 10px;
+        }
+        
+        .profile-bio {
+            background: var(--light);
+            border-radius: var(--radius);
+            padding: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .dark-mode .profile-bio {
+            background: #333;
+        }
+        
+        .profile-bio h3 {
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .profile-bio p {
+            color: var(--gray);
+            line-height: 1.6;
+        }
+        
+        .profile-links {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .profile-link {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .profile-main {
+            background: white;
+            border-radius: var(--radius);
+            padding: 25px;
+            box-shadow: var(--shadow);
+        }
+        
+        .dark-mode .profile-main {
+            background: #2d2d2d;
+        }
+        
+        .profile-tabs {
+            display: flex;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 20px;
+        }
+        
+        .dark-mode .profile-tabs {
+            border-bottom: 1px solid #444;
+        }
+        
+        .profile-tab {
+            padding: 10px 20px;
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: var(--transition);
+        }
+        
+        .dark-mode .profile-tab {
+            color: #ccc;
+        }
+        
+        .profile-tab.active {
+            border-bottom: 3px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .dark-mode .profile-tab.active {
+            color: var(--primary);
+        }
+        
+        .profile-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .profile-content .recipe-card {
+            margin: 0;
+        }
+        
+        /* Messages Page */
+        .messages-page {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .dark-mode .messages-page {
+            background: #1e1e1e;
+        }
+        
+        .messages-sidebar {
+            background: white;
+            border-radius: var(--radius);
+            padding: 25px;
+            box-shadow: var(--shadow);
+            height: 70vh;
+            overflow-y: auto;
+        }
+        
+        .dark-mode .messages-sidebar {
+            background: #2d2d2d;
+        }
+        
+        .message-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .message-header h2 {
+            font-size: 1.5rem;
+        }
+        
+        .message-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .message-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 10px;
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .dark-mode .message-item {
+            color: #e0e0e0;
+        }
+        
+        .message-item:hover {
+            background: var(--light);
+        }
+        
+        .dark-mode .message-item:hover {
+            background: #333;
+        }
+        
+        .message-item.active {
+            background: var(--light);
+            border-left: 4px solid var(--primary);
+        }
+        
+        .dark-mode .message-item.active {
+            background: #333;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .message-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .message-info {
+            flex: 1;
+        }
+        
+        .message-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .message-preview {
+            font-size: 0.9rem;
+            color: var(--gray);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .message-time {
+            font-size: 0.8rem;
+            color: var(--gray);
+            align-self: flex-start;
+        }
+        
+        .message-content {
+            background: white;
+            border-radius: var(--radius);
+            padding: 25px;
+            box-shadow: var(--shadow);
+            height: 70vh;
+            overflow-y: auto;
+        }
+        
+        .dark-mode .message-content {
+            background: #2d2d2d;
+        }
+        
+        .message-bubble {
+            max-width: 80%;
+            padding: 12px 15px;
+            border-radius: 18px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+        
+        .message-bubble.sent {
+            background: var(--secondary);
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 5px;
+        }
+        
+        .message-bubble.received {
+            background: var(--light);
+            border-bottom-left-radius: 5px;
+        }
+        
+        .dark-mode .message-bubble.received {
+            background: #333;
+        }
+        
+        .message-time {
+            font-size: 0.7rem;
+            text-align: right;
+            margin-top: 5px;
+            color: var(--gray);
+        }
+        
+        .message-input {
+            display: flex;
+            gap: 10px;
+            padding: 10px;
+            border-top: 1px solid #eee;
+        }
+        
+        .dark-mode .message-input {
+            border-top: 1px solid #444;
+        }
+        
+        .message-input input {
+            flex: 1;
+            padding: 12px 15px;
+            border-radius: 50px;
+            border: 1px solid #ddd;
+            background: white;
+            color: var(--text-color);
+        }
+        
+        .dark-mode .message-input input {
+            background: #333;
+            color: #e0e0e0;
+            border-color: #444;
+        }
+        
+        .message-input button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--secondary);
+            color: white;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
         }
         
         /* Main Content */
@@ -1308,6 +1597,15 @@
             .age-btn {
                 width: 100%;
             }
+            
+            .profile-page,
+            .messages-page {
+                grid-template-columns: 1fr;
+            }
+            
+            .video-feed {
+                height: auto;
+            }
         }
         
         @media (max-width: 480px) {
@@ -1524,99 +1822,245 @@
         .dark-mode .feature-desc {
             color: #888;
         }
+        
+        /* Tab Navigation */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 20px;
+        }
+        
+        .dark-mode .tabs {
+            border-bottom: 1px solid #444;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: var(--transition);
+        }
+        
+        .dark-mode .tab {
+            color: #ccc;
+        }
+        
+        .tab.active {
+            border-bottom: 3px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .dark-mode .tab.active {
+            color: var(--primary);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Live Session Styles */
+        .live-session {
+            background: #1a1a2e;
+            border-radius: var(--radius);
+            overflow: hidden;
+            margin: 25px 0;
+            position: relative;
+        }
+        
+        .live-header {
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #16213e;
+        }
+        
+        .live-host {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .live-host .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .live-host .info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .live-host .name {
+            font-weight: 600;
+        }
+        
+        .live-host .status {
+            font-size: 0.8rem;
+            color: var(--warning);
+        }
+        
+        .live-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .live-actions .btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            padding: 5px;
+        }
+        
+        .live-video {
+            height: 400px;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .live-video::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1160&q=80') no-repeat center;
+            background-size: cover;
+            opacity: 0.3;
+        }
+        
+        .live-video i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: var(--secondary);
+        }
+        
+        .live-video h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .live-video p {
+            color: #aaa;
+            max-width: 70%;
+        }
+        
+        .live-info {
+            padding: 15px;
+            background: #16213e;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .live-viewers {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .live-viewers i {
+            color: var(--warning);
+        }
+        
+        .live-viewers span {
+            font-weight: 600;
+        }
+        
+        .live-chat {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .live-chat input {
+            flex: 1;
+            padding: 12px 15px;
+            border-radius: 50px;
+            border: 1px solid #ddd;
+            background: #1a1a2e;
+            color: white;
+        }
+        
+        .live-chat button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--secondary);
+            color: white;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+        
+        .live-messages {
+            height: 300px;
+            overflow-y: auto;
+            padding: 15px;
+        }
+        
+        .message {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .message .avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: var(--secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        
+        .message .content {
+            background: #1e1e1e;
+            border-radius: 18px;
+            padding: 10px 15px;
+            max-width: 80%;
+        }
+        
+        .message .name {
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+        
+        .message .text {
+            font-size: 0.9rem;
+        }
     </style>
 </head>
 <body>
-    <!-- Age Verification Modal -->
-    <div class="modal" id="ageModal">
-        <div class="modal-content">
-            <button class="modal-close" id="ageClose">&times;</button>
-            <div class="age-verify-content">
-                <div class="age-verify-title">verify18+</div>
-                <h2 class="modal-title">Age Verification Required</h2>
-                <p class="age-verify-desc">
-                    This app contains recipes and cooking methods that may include alcohol, 
-                    advanced techniques, and international cuisines intended for adults only.
-                </p>
-                <p style="font-weight: 600; margin-bottom: 25px; color: var(--dark);">
-                    Are you 18 years or older?
-                </p>
-                <div class="age-buttons">
-                    <button class="age-btn yes" id="ageYes">Yes, I'm 18+</button>
-                    <button class="age-btn no" id="ageNo">No</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Login Modal -->
-    <div class="modal" id="loginModal">
-        <div class="modal-content">
-            <button class="modal-close" id="loginClose">&times;</button>
-            <h2 class="modal-title" id="authTitle">Login to Your Account</h2>
-            <form class="login-form" id="authForm">
-                <div class="form-group">
-                    <label for="email">Email Address</label>
-                    <input type="email" id="email" placeholder="your@email.com" required>
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" placeholder="••••••••" required>
-                </div>
-                <div class="auth-buttons">
-                    <button type="button" class="auth-btn login-btn" id="loginSubmit">Login</button>
-                    <button type="button" class="auth-btn signup-btn" id="signupSubmit">Sign Up</button>
-                </div>
-            </form>
-            <div class="switch-auth">
-                <span>Don't have an account? <a id="switchToSignup">Sign up here</a></span>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Premium Modal -->
-    <div class="modal" id="premiumModal">
-        <div class="modal-content">
-            <button class="modal-close" id="premiumClose">&times;</button>
-            <h2 class="modal-title">✨ Go Premium</h2>
-            <div style="text-align: center; margin: 20px 0;">
-                <div style="background: rgba(212, 175, 55, 0.1); display: inline-block; padding: 15px 30px; border-radius: 50px; margin: 15px 0;">
-                    <span style="font-size: 2.5rem; font-weight: bold; color: var(--premium-gold);">$4.99</span>
-                    <span style="font-size: 1.1rem; color: #666; display: block; margin-top: 5px;">/ month</span>
-                </div>
-                <p style="color: #555; margin: 15px 0; font-size: 1.1rem;">
-                    Unlock exclusive international recipes & advanced cooking techniques
-                </p>
-            </div>
-            
-            <div style="background: var(--light); border-radius: var(--radius); padding: 20px; margin: 25px 0;">
-                <h3 style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px; color: var(--dark);">
-                    <i class="fas fa-check-circle" style="color: var(--success);"></i>
-                    Premium Features
-                </h3>
-                <ul style="text-align: left; padding-left: 20px; color: #444; line-height: 1.8;">
-                    <li>🔓 Unlock 500+ foreign recipes (Thai, Japanese, French, etc.)</li>
-                    <li>👨‍🍳 Master advanced cooking methods (sous vide, fermentation, etc.)</li>
-                    <li>🍷 Wine & spirit pairing guides for gourmet meals</li>
-                    <li>🌍 Cultural cooking traditions & history</li>
-                    <li>🎥 Video tutorials from master chefs</li>
-                    <li>✨ Ad-free experience</li>
-                    <li>📸 Post your own cooking videos & food photos</li>
-                    <li>🏨 Share lifestyle content (hotels, restaurants, travel)</li>
-                </ul>
-            </div>
-            
-            <button class="btn btn-premium" id="subscribeBtn" style="width: 100%; padding: 14px; font-size: 1.1rem;">
-                <i class="fas fa-crown"></i> Subscribe Now - $4.99/month
-            </button>
-            
-            <p style="text-align: center; margin-top: 20px; color: var(--gray); font-size: 0.9rem;">
-                7-day free trial • Cancel anytime • Secure payment
-            </p>
-        </div>
-    </div>
-    
-    <!-- Header Section -->
+    <!-- Navigation -->
     <header>
         <div class="container header-content">
             <div class="logo">
@@ -1650,6 +2094,12 @@
                         <a href="#" class="dropdown-item" id="myLifestyle">
                             <i class="fas fa-utensils"></i> My Lifestyle
                         </a>
+                        <a href="#" class="dropdown-item" id="myLive">
+                            <i class="fas fa-broadcast-tower"></i> Live Sessions
+                        </a>
+                        <a href="#" class="dropdown-item" id="messages">
+                            <i class="fas fa-comments"></i> Messages
+                        </a>
                         <a href="#" class="dropdown-item" id="logoutBtn">
                             <i class="fas fa-sign-out-alt"></i> Log Out
                         </a>
@@ -1664,1038 +2114,334 @@
     
     <!-- Main Content -->
     <main class="container">
-        <h1 class="section-title">Discover Delicious Recipes</h1>
-        <p style="margin-bottom: 25px; color: #555;">Find inspiration for your next meal with our curated collection of homemade recipes for every occasion and skill level.</p>
-        
-        <!-- Premium Banner -->
-        <div class="premium-banner">
-            <h3>🌍 Unlock World Cuisines with Premium!</h3>
-            <p>Access authentic recipes from Thailand, Japan, Italy, Mexico & more. Master advanced techniques like sous vide, fermentation, and molecular gastronomy.</p>
-            <button class="btn btn-premium" id="bannerPremiumBtn" style="background: white; color: var(--dark); font-weight: 700;">
-                <i class="fas fa-unlock"></i> Upgrade to Premium
-            </button>
+        <div class="tabs">
+            <div class="tab active" data-tab="home">Home</div>
+            <div class="tab" data-tab="videos">Videos</div>
+            <div class="tab" data-tab="recipes">Recipes</div>
+            <div class="tab" data-tab="social">Social</div>
         </div>
         
-        <!-- Categories Section -->
-        <div class="categories">
-            <div class="category-card active" data-category="all">
-                <i class="fas fa-fire"></i>
-                <div>All Recipes</div>
+        <!-- Home Tab Content -->
+        <div class="tab-content active" id="home-content">
+            <h1 class="section-title">Discover Delicious Recipes</h1>
+            <p style="margin-bottom: 25px; color: #555;">Find inspiration for your next meal with our curated collection of homemade recipes for every occasion and skill level.</p>
+            
+            <!-- Premium Banner -->
+            <div class="premium-banner">
+                <h3>🌍 Unlock World Cuisines with Premium!</h3>
+                <p>Access authentic recipes from Thailand, Japan, Italy, Mexico & more. Master advanced techniques like sous vide, fermentation, and molecular gastronomy.</p>
+                <button class="btn btn-premium" id="bannerPremiumBtn" style="background: white; color: var(--dark); font-weight: 700;">
+                    <i class="fas fa-unlock"></i> Upgrade to Premium
+                </button>
             </div>
-            <div class="category-card" data-category="italian">
-                <i class="fas fa-pizza-slice"></i>
-                <div>Italian</div>
+            
+            <!-- Categories Section -->
+            <div class="categories">
+                <div class="category-card active" data-category="all">
+                    <i class="fas fa-fire"></i>
+                    <div>All Recipes</div>
+                </div>
+                <div class="category-card" data-category="italian">
+                    <i class="fas fa-pizza-slice"></i>
+                    <div>Italian</div>
+                </div>
+                <div class="category-card" data-category="vegetarian">
+                    <i class="fas fa-leaf"></i>
+                    <div>Vegetarian</div>
+                </div>
+                <div class="category-card premium" data-category="japanese">
+                    <i class="fas fa-sushi"></i>
+                    <div>Japanese</div>
+                </div>
+                <div class="category-card premium" data-category="thai">
+                    <i class="fas fa-pepper-hot"></i>
+                    <div>Thai</div>
+                </div>
+                <div class="category-card" data-category="quick">
+                    <i class="fas fa-clock"></i>
+                    <div>Quick Meals</div>
+                </div>
             </div>
-            <div class="category-card" data-category="vegetarian">
-                <i class="fas fa-leaf"></i>
-                <div>Vegetarian</div>
-            </div>
-            <div class="category-card premium" data-category="japanese">
-                <i class="fas fa-sushi"></i>
-                <div>Japanese</div>
-            </div>
-            <div class="category-card premium" data-category="thai">
-                <i class="fas fa-pepper-hot"></i>
-                <div>Thai</div>
-            </div>
-            <div class="category-card" data-category="quick">
-                <i class="fas fa-clock"></i>
-                <div>Quick Meals</div>
-            </div>
-        </div>
-        
-        <!-- Featured Recipe -->
-        <div class="recipe-detail active" id="featured-recipe">
-            <div class="detail-header">
-                <div>
-                    <h2 class="detail-title">Creamy Mushroom Risotto</h2>
-                    <div class="detail-meta">
-                        <div><i class="fas fa-clock"></i> 45 mins</div>
-                        <div><i class="fas fa-utensil-spoon"></i> Serves 4</div>
-                        <div><i class="fas fa-fire"></i> 520 kcal</div>
-                        <div><i class="fas fa-star"></i> 4.9 (128 reviews)</div>
+            
+            <!-- Featured Recipe -->
+            <div class="recipe-detail active" id="featured-recipe">
+                <div class="detail-header">
+                    <div>
+                        <h2 class="detail-title">Creamy Mushroom Risotto</h2>
+                        <div class="detail-meta">
+                            <div><i class="fas fa-clock"></i> 45 mins</div>
+                            <div><i class="fas fa-utensil-spoon"></i> Serves 4</div>
+                            <div><i class="fas fa-fire"></i> 520 kcal</div>
+                            <div><i class="fas fa-star"></i> 4.9 (128 reviews)</div>
+                        </div>
+                    </div>
+                    <button class="btn save-btn active" id="featuredSave">
+                        <i class="fas fa-bookmark"></i>
+                    </button>
+                </div>
+                
+                <div class="detail-img" style="background-image: url('https://images.unsplash.com/photo-1573140266316-47a4d11a8f9b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80');"></div>
+                
+                <div class="ingredients-section">
+                    <h3 class="section-subtitle">Ingredients</h3>
+                    <div class="ingredients-list">
+                        <div class="ingredient"><i class="fas fa-check-circle"></i> 1.5 cups Arborio rice</div>
+                        <div class="ingredient"><i class="fas fa-check-circle"></i> 8 oz mushrooms, sliced</div>
+                        <div class="ingredient"><i class="fas fa-check-circle"></i> 1 small onion, finely chopped</div>
+                        <div class="ingredient"><i class="fas fa-check-circle"></i> 2 cloves garlic, minced</div>
+                        <div class="ingredient"><i class="fas fa-check-circle"></i> 4 cups vegetable broth</div>
+                        <div class="ingredient"><i class="fas fa-check-circle"></i> 1/2 cup dry white wine</div>
+                        <div class="ingredient"><i class="fas fa-check-circle"></i> 1/2 cup grated Parmesan cheese</div>
+                        <div class="ingredient"><i class="fas fa-check-circle"></i> 2 tbsp butter</div>
+                        <div class="ingredient"><i class="fas fa-check-circle"></i> 2 tbsp olive oil</div>
+                        <div class="ingredient"><i class="fas fa-check-circle"></i> Salt and pepper to taste</div>
+                        <div class="ingredient"><i class="fas fa-check-circle"></i> Fresh parsley, chopped</div>
                     </div>
                 </div>
-                <button class="btn save-btn active" id="featuredSave">
-                    <i class="fas fa-bookmark"></i>
-                </button>
-            </div>
-            
-            <div class="detail-img" style="background-image: url('https://images.unsplash.com/photo-1573140266316-47a4d11a8f9b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80');"></div>
-            
-            <div class="ingredients-section">
-                <h3 class="section-subtitle">Ingredients</h3>
-                <div class="ingredients-list">
-                    <div class="ingredient"><i class="fas fa-check-circle"></i> 1.5 cups Arborio rice</div>
-                    <div class="ingredient"><i class="fas fa-check-circle"></i> 8 oz mushrooms, sliced</div>
-                    <div class="ingredient"><i class="fas fa-check-circle"></i> 1 small onion, finely chopped</div>
-                    <div class="ingredient"><i class="fas fa-check-circle"></i> 2 cloves garlic, minced</div>
-                    <div class="ingredient"><i class="fas fa-check-circle"></i> 4 cups vegetable broth</div>
-                    <div class="ingredient"><i class="fas fa-check-circle"></i> 1/2 cup dry white wine</div>
-                    <div class="ingredient"><i class="fas fa-check-circle"></i> 1/2 cup grated Parmesan cheese</div>
-                    <div class="ingredient"><i class="fas fa-check-circle"></i> 2 tbsp butter</div>
-                    <div class="ingredient"><i class="fas fa-check-circle"></i> 2 tbsp olive oil</div>
-                    <div class="ingredient"><i class="fas fa-check-circle"></i> Salt and pepper to taste</div>
-                    <div class="ingredient"><i class="fas fa-check-circle"></i> Fresh parsley, chopped</div>
+                
+                <div class="instructions-section">
+                    <h3 class="section-subtitle">Instructions</h3>
+                    <div class="instructions-list">
+                        <div class="instruction-step">Heat vegetable broth in a saucepan and keep warm over low heat.</div>
+                        <div class="instruction-step">In a large skillet or Dutch oven, heat olive oil over medium heat. Add onions and sauté until translucent, about 3-4 minutes.</div>
+                        <div class="instruction-step">Add mushrooms and cook until they release their moisture and begin to brown, about 5-7 minutes. Add garlic and cook for another minute.</div>
+                        <div class="instruction-step">Add Arborio rice to the skillet and stir to coat with oil. Toast for 1-2 minutes until edges become translucent.</div>
+                        <div class="instruction-step">Pour in white wine and stir continuously until absorbed by the rice.</div>
+                        <div class="instruction-step">Begin adding warm broth one ladle at a time, stirring constantly and waiting until each addition is absorbed before adding more.</div>
+                        <div class="instruction-step">Continue this process for about 18-20 minutes, until rice is creamy and al dente.</div>
+                        <div class="instruction-step">Remove from heat. Stir in butter, Parmesan cheese, salt, and pepper.</div>
+                        <div class="instruction-step">Let stand for 2 minutes, then garnish with fresh parsley before serving.</div>
+                    </div>
                 </div>
-            </div>
-            
-            <div class="instructions-section">
-                <h3 class="section-subtitle">Instructions</h3>
-                <div class="instructions-list">
-                    <div class="instruction-step">Heat vegetable broth in a saucepan and keep warm over low heat.</div>
-                    <div class="instruction-step">In a large skillet or Dutch oven, heat olive oil over medium heat. Add onions and sauté until translucent, about 3-4 minutes.</div>
-                    <div class="instruction-step">Add mushrooms and cook until they release their moisture and begin to brown, about 5-7 minutes. Add garlic and cook for another minute.</div>
-                    <div class="instruction-step">Add Arborio rice to the skillet and stir to coat with oil. Toast for 1-2 minutes until edges become translucent.</div>
-                    <div class="instruction-step">Pour in white wine and stir continuously until absorbed by the rice.</div>
-                    <div class="instruction-step">Begin adding warm broth one ladle at a time, stirring constantly and waiting until each addition is absorbed before adding more.</div>
-                    <div class="instruction-step">Continue this process for about 18-20 minutes, until rice is creamy and al dente.</div>
-                    <div class="instruction-step">Remove from heat. Stir in butter, Parmesan cheese, salt, and pepper.</div>
-                    <div class="instruction-step">Let stand for 2 minutes, then garnish with fresh parsley before serving.</div>
-                </div>
-            </div>
-            
-            <div class="action-buttons">
-                <button class="btn btn-primary" id="startCooking">
-                    <i class="fas fa-play-circle"></i> Start Cooking
-                </button>
-                <button class="btn" id="shareRecipe">
-                    <i class="fas fa-share-alt"></i> Share Recipe
-                </button>
-            </div>
-        </div>
-        
-        <!-- Shopping List Section -->
-        <div class="shopping-list">
-            <div class="shopping-header">
-                <h2 class="shopping-title">Your Shopping List</h2>
-                <div class="shopping-actions">
-                    <button class="btn" id="addToList">
-                        <i class="fas fa-plus"></i> Add to List
+                
+                <div class="action-buttons">
+                    <button class="btn btn-primary" id="startCooking">
+                        <i class="fas fa-play-circle"></i> Start Cooking
                     </button>
-                    <button class="btn" id="clearList">
-                        <i class="fas fa-trash"></i> Clear
+                    <button class="btn" id="shareRecipe">
+                        <i class="fas fa-share-alt"></i> Share Recipe
                     </button>
                 </div>
             </div>
             
-            <div class="shopping-items">
-                <div class="shopping-item">
-                    <div class="item-name">Arborio rice</div>
-                    <div class="item-quantity">1.5 cups</div>
-                    <div class="item-actions">
-                        <button class="item-btn" id="add-1">
-                            <i class="fas fa-plus"></i>
+            <!-- Shopping List Section -->
+            <div class="shopping-list">
+                <div class="shopping-header">
+                    <h2 class="shopping-title">Your Shopping List</h2>
+                    <div class="shopping-actions">
+                        <button class="btn" id="addToList">
+                            <i class="fas fa-plus"></i> Add to List
                         </button>
-                        <button class="item-btn" id="remove-1">
-                            <i class="fas fa-minus"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="shopping-item">
-                    <div class="item-name">Mushrooms, sliced</div>
-                    <div class="item-quantity">8 oz</div>
-                    <div class="item-actions">
-                        <button class="item-btn" id="add-2">
-                            <i class="fas fa-plus"></i>
-                        </button>
-                        <button class="item-btn" id="remove-2">
-                            <i class="fas fa-minus"></i>
+                        <button class="btn" id="clearList">
+                            <i class="fas fa-trash"></i> Clear
                         </button>
                     </div>
                 </div>
-                <div class="shopping-item">
-                    <div class="item-name">Fresh parsley</div>
-                    <div class="item-quantity">1 bunch</div>
-                    <div class="item-actions">
-                        <button class="item-btn" id="add-3">
-                            <i class="fas fa-plus"></i>
-                        </button>
-                        <button class="item-btn" id="remove-3">
-                            <i class="fas fa-minus"></i>
-                        </button>
+                
+                <div class="shopping-items">
+                    <div class="shopping-item">
+                        <div class="item-name">Arborio rice</div>
+                        <div class="item-quantity">1.5 cups</div>
+                        <div class="item-actions">
+                            <button class="item-btn" id="add-1">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                            <button class="item-btn" id="remove-1">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="shopping-item">
+                        <div class="item-name">Mushrooms, sliced</div>
+                        <div class="item-quantity">8 oz</div>
+                        <div class="item-actions">
+                            <button class="item-btn" id="add-2">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                            <button class="item-btn" id="remove-2">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="shopping-item">
+                        <div class="item-name">Fresh parsley</div>
+                        <div class="item-quantity">1 bunch</div>
+                        <div class="item-actions">
+                            <button class="item-btn" id="add-3">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                            <button class="item-btn" id="remove-3">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        
-        <!-- New Features Section -->
-        <div class="section-title">
-            <h2>What's New</h2>
-        </div>
-        <div class="new-features">
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-video"></i>
-                </div>
-                <h3 class="feature-title">Cooking Videos</h3>
-                <p class="feature-desc">Post your own cooking videos and watch others' creations. Share your techniques and get feedback from the community.</p>
-                <button class="btn" id="postVideo">
-                    <i class="fas fa-upload"></i> Post Video
-                </button>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-utensils"></i>
-                </div>
-                <h3 class="feature-title">Lifestyle Sharing</h3>
-                <p class="feature-desc">Share your food adventures - from fancy restaurants to cozy home meals. Show where you eat, travel, and explore new cuisines.</p>
-                <button class="btn" id="postLifestyle">
-                    <i class="fas fa-camera"></i> Post Lifestyle
-                </button>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-hotel"></i>
-                </div>
-                <h3 class="feature-title">Travel & Food</h3>
-                <p class="feature-desc">Discover restaurants and food experiences at your travel destinations. Share where you've eaten and get recommendations for your next trip.</p>
-                <button class="btn" id="findHotels">
-                    <i class="fas fa-map-marked-alt"></i> Find Restaurants
-                </button>
-            </div>
-        </div>
-        
-        <!-- Empty Space Fixer -->
-        <div class="empty-space">
-            <h3>Connect with Food Lovers</h3>
-            <p>Join our community of food enthusiasts who share their cooking experiences, food adventures, and culinary creations. Post your own content and interact with others!</p>
-            <button class="btn" id="joinCommunity">
-                <i class="fas fa-user-friends"></i> Join the Community
-            </button>
-        </div>
-        
-        <!-- Social Feed -->
-        <div class="social-feed">
-            <div class="feed-header">
-                <h2 class="feed-title">Community Feed</h2>
-                <button class="btn" id="refreshFeed">
-                    <i class="fas fa-sync-alt"></i> Refresh
-                </button>
             </div>
             
-            <!-- Post 1 -->
-            <div class="feed-post">
-                <div class="post-header">
-                    <div class="post-author">
-                        <div class="author-avatar">A</div>
-                        <div class="author-info">
-                            <div class="author-name">Alex Johnson</div>
-                            <div class="post-time">2 hours ago</div>
+            <!-- New Features Section -->
+            <div class="section-title">
+                <h2>What's New</h2>
+            </div>
+            <div class="new-features">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <h3 class="feature-title">Cooking Videos</h3>
+                    <p class="feature-desc">Post your own cooking videos and watch others' creations. Share your techniques and get feedback from the community.</p>
+                    <button class="btn" id="postVideo">
+                        <i class="fas fa-upload"></i> Post Video
+                    </button>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <h3 class="feature-title">Lifestyle Sharing</h3>
+                    <p class="feature-desc">Share your food adventures - from fancy restaurants to cozy home meals. Show where you eat, travel, and explore new cuisines.</p>
+                    <button class="btn" id="postLifestyle">
+                        <i class="fas fa-camera"></i> Post Lifestyle
+                    </button>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-hotel"></i>
+                    </div>
+                    <h3 class="feature-title">Travel & Food</h3>
+                    <p class="feature-desc">Discover restaurants and food experiences at your travel destinations. Share where you've eaten and get recommendations for your next trip.</p>
+                    <button class="btn" id="findHotels">
+                        <i class="fas fa-map-marked-alt"></i> Find Restaurants
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Premium Section -->
+            <h2 class="section-title">
+                Premium International Recipes
+                <span class="premium-section-tag">PREMIUM</span>
+            </h2>
+            <p style="color: #666; margin-bottom: 20px;">Unlock authentic recipes from around the world with a Premium subscription</p>
+            
+            <div class="recipes-grid">
+                <!-- Premium Recipe 1 -->
+                <div class="recipe-card premium" data-recipe="thai-curry">
+                    <div class="recipe-img" style="background-image: url('https://images.unsplash.com/photo-1593819559779-4f033560e489?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');">
+                        <div class="premium-lock">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                    </div>
+                    <div class="recipe-content">
+                        <h3 class="recipe-title">Authentic Thai Green Curry</h3>
+                        <div class="recipe-meta">
+                            <span><i class="fas fa-clock"></i> 45 mins</span>
+                            <span class="recipe-rating"><i class="fas fa-star"></i> 4.9</span>
+                        </div>
+                        <p class="recipe-desc">Master the art of Thai curry paste from scratch with lemongrass, galangal, and kaffir lime leaves. Authentic street food recipe.</p>
+                        <div class="recipe-actions">
+                            <button class="btn btn-premium premium-action" data-action="view">
+                                <i class="fas fa-lock"></i> Premium
+                            </button>
+                            <button class="save-btn" data-recipe="thai-curry">
+                                <i class="far fa-bookmark"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
                 
-                <div class="post-content">
-                    <img src="https://images.unsplash.com/photo-1571115177098-24ec42ed204d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" 
-                         alt="Sushi" class="post-image">
-                    <div class="post-caption">
-                        <p>Just mastered this homemade sushi roll! Took me 3 tries but finally got the rice perfect. What do you think? #sushilover #homemade</p>
+                <!-- Premium Recipe 2 -->
+                <div class="recipe-card premium" data-recipe="ramen">
+                    <div class="recipe-img" style="background-image: url('https://images.unsplash.com/photo-1555939316-7f632942d2eb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');">
+                        <div class="premium-lock">
+                            <i class="fas fa-lock"></i>
+                        </div>
                     </div>
-                </div>
-                
-                <div class="post-likes">
-                    <div><i class="fas fa-heart"></i> <span class="like-count">248</span></div>
-                </div>
-                
-                <div class="post-actions">
-                    <div class="post-action">
-                        <i class="far fa-heart"></i> Like
-                    </div>
-                    <div class="post-action">
-                        <i class="far fa-comment"></i> Comment
-                    </div>
-                    <div class="post-action">
-                        <i class="far fa-share-square"></i> Share
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Post 2 -->
-            <div class="feed-post">
-                <div class="post-header">
-                    <div class="post-author">
-                        <div class="author-avatar">M</div>
-                        <div class="author-info">
-                            <div class="author-name">Maria Garcia</div>
-                            <div class="post-time">5 hours ago</div>
+                    <div class="recipe-content">
+                        <h3 class="recipe-title">Japanese Ramen (Tonkotsu)</h3>
+                        <div class="recipe-meta">
+                            <span><i class="fas fa-clock"></i> 18 hrs</span>
+                            <span class="recipe-rating"><i class="fas fa-star"></i> 4.8</span>
+                        </div>
+                        <p class="recipe-desc">Learn the 18-hour process for authentic pork bone broth, handmade noodles, and perfect chashu pork. Master ramen chef techniques.</p>
+                        <div class="recipe-actions">
+                            <button class="btn btn-premium premium-action" data-action="view">
+                                <i class="fas fa-lock"></i> Premium
+                            </button>
+                            <button class="save-btn" data-recipe="ramen">
+                                <i class="far fa-bookmark"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
                 
-                <div class="post-content">
-                    <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1160&q=80" 
-                         alt="Avocado Toast" class="post-image">
-                    <div class="post-caption">
-                        <p>Weekend breakfast is served! Added a sprinkle of chili flakes to my avocado toast. What's your favorite breakfast? #avocadotoast #weekendvibes</p>
+                <!-- Premium Recipe 3 -->
+                <div class="recipe-card premium" data-recipe="souffle">
+                    <div class="recipe-img" style="background-image: url('https://images.unsplash.com/photo-1565958011704-4a87de7997a4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');">
+                        <div class="premium-lock">
+                            <i class="fas fa-lock"></i>
+                        </div>
                     </div>
-                </div>
-                
-                <div class="post-likes">
-                    <div><i class="fas fa-heart"></i> <span class="like-count">312</span></div>
-                </div>
-                
-                <div class="post-actions">
-                    <div class="post-action">
-                        <i class="far fa-heart"></i> Like
-                    </div>
-                    <div class="post-action">
-                        <i class="far fa-comment"></i> Comment
-                    </div>
-                    <div class="post-action">
-                        <i class="far fa-share-square"></i> Share
+                    <div class="recipe-content">
+                        <h3 class="recipe-title">French Soufflé Masterclass</h3>
+                        <div class="recipe-meta">
+                            <span><i class="fas fa-clock"></i> 50 mins</span>
+                            <span class="recipe-rating"><i class="fas fa-star"></i> 4.7</span>
+                        </div>
+                        <p class="recipe-desc">Perfect the delicate art of soufflés with chef techniques for stable egg whites, proper folding, and oven temperature control.</p>
+                        <div class="recipe-actions">
+                            <button class="btn btn-premium premium-action" data-action="view">
+                                <i class="fas fa-lock"></i> Premium
+                            </button>
+                            <button class="save-btn" data-recipe="souffle">
+                                <i class="far fa-bookmark"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
             
-            <!-- Post 3 -->
-            <div class="feed-post">
-                <div class="post-header">
-                    <div class="post-author">
-                        <div class="author-avatar">T</div>
-                        <div class="author-info">
-                            <div class="author-name">Tom Wilson</div>
-                            <div class="post-time">1 day ago</div>
+            <!-- Popular Recipes Section -->
+            <h2 class="section-title" style="margin-top: 50px;">Popular Free Recipes</h2>
+            <div class="recipes-grid">
+                <!-- Recipe 1 -->
+                <div class="recipe-card" data-recipe="avocado-toast">
+                    <div class="recipe-img" style="background-image: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1160&q=80');">
+                        <div class="featured-badge">Popular</div>
+                    </div>
+                    <div class="recipe-content">
+                        <h3 class="recipe-title">Avocado Toast with Poached Eggs</h3>
+                        <div class="recipe-meta">
+                            <span><i class="fas fa-clock"></i> 15 mins</span>
+                            <span class="recipe-rating"><i class="fas fa-star"></i> 4.8</span>
+                        </div>
+                        <p class="recipe-desc">A perfect healthy breakfast with creamy avocado, perfectly poached eggs, and a sprinkle of chili flakes.</p>
+                        <div class="recipe-actions">
+                            <button class="btn view-recipe" data-recipe="avocado-toast">View Recipe</button>
+                            <button class="save-btn" data-recipe="avocado-toast">
+                                <i class="far fa-bookmark"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
                 
-                <div class="post-content">
-                    <img src="https://images.unsplash.com/photo-1571115177098-24ec42ed204d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" 
-                         alt="Thai Curry" class="post-image">
-                    <div class="post-caption">
-                        <p>Just got back from Thailand and tried to recreate this amazing green curry at home. The lemongrass was hard to find but worth it! #thaicurry #travel #foodie</p>
+                <!-- Recipe 2 -->
+                <div class="recipe-card" data-recipe="carbonara">
+                    <div class="recipe-img" style="background-image: url('https://images.unsplash.com/photo-1547592164-6f5f5f9a1880?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');"></div>
+                    <div class="recipe-content">
+                        <h3 class="recipe-title">Classic Spaghetti Carbonara</h3>
+                        <div class="recipe-meta">
+                            <span><i class="fas fa-clock"></i> 25 mins</span>
+                            <span class="recipe-rating"><i class="fas fa-star"></i> 4.9</span>
+                        </div>
+                        <p class="recipe-desc">Authentic Italian carbonara with crispy pancetta, egg sauce, and plenty of Parmigiano-Reggiano cheese.</p>
+                        <div class="recipe-actions">
+                            <button class="btn view-recipe" data-recipe="carbonara">View Recipe</button>
+                            <button class="save-btn active" data-recipe="carbonara">
+                                <i class="fas fa-bookmark"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="post-likes">
-                    <div><i class="fas fa-heart"></i> <span class="like-count">487</span></div>
-                </div>
-                
-                <div class="post-actions">
-                    <div class="post-action">
-                        <i class="far fa-heart"></i> Like
-                    </div>
-                    <div class="post-action">
-                        <i class="far fa-comment"></i> Comment
-                    </div>
-                    <div class="post-action">
-                        <i class="far fa-share-square"></i> Share
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Premium Section -->
-        <h2 class="section-title">
-            Premium International Recipes
-            <span class="premium-section-tag">PREMIUM</span>
-        </h2>
-        <p style="color: #666; margin-bottom: 20px;">Unlock authentic recipes from around the world with a Premium subscription</p>
-        
-        <div class="recipes-grid">
-            <!-- Premium Recipe 1 -->
-            <div class="recipe-card premium" data-recipe="thai-curry">
-                <div class="recipe-img" style="background-image: url('https://images.unsplash.com/photo-1593819559779-4f033560e489?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');">
-                    <div class="premium-lock">
-                        <i class="fas fa-lock"></i>
-                    </div>
-                </div>
-                <div class="recipe-content">
-                    <h3 class="recipe-title">Authentic Thai Green Curry</h3>
-                    <div class="recipe-meta">
-                        <span><i class="fas fa-clock"></i> 45 mins</span>
-                        <span class="recipe-rating"><i class="fas fa-star"></i> 4.9</span>
-                    </div>
-                    <p class="recipe-desc">Master the art of Thai curry paste from scratch with lemongrass, galangal, and kaffir lime leaves. Authentic street food recipe.</p>
-                    <div class="recipe-actions">
-                        <button class="btn btn-premium premium-action" data-action="view">
-                            <i class="fas fa-lock"></i> Premium
-                        </button>
-                        <button class="save-btn" data-recipe="thai-curry">
-                            <i class="far fa-bookmark"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Premium Recipe 2 -->
-            <div class="recipe-card premium" data-recipe="ramen">
-                <div class="recipe-img" style="background-image: url('https://images.unsplash.com/photo-1555939316-7f632942d2eb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');">
-                    <div class="premium-lock">
-                        <i class="fas fa-lock"></i>
-                    </div>
-                </div>
-                <div class="recipe-content">
-                    <h3 class="recipe-title">Japanese Ramen (Tonkotsu)</h3>
-                    <div class="recipe-meta">
-                        <span><i class="fas fa-clock"></i> 18 hrs</span>
-                        <span class="recipe-rating"><i class="fas fa-star"></i> 4.8</span>
-                    </div>
-                    <p class="recipe-desc">Learn the 18-hour process for authentic pork bone broth, handmade noodles, and perfect chashu pork. Master ramen chef techniques.</p>
-                    <div class="recipe-actions">
-                        <button class="btn btn-premium premium-action" data-action="view">
-                            <i class="fas fa-lock"></i> Premium
-                        </button>
-                        <button class="save-btn" data-recipe="ramen">
-                            <i class="far fa-bookmark"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Premium Recipe 3 -->
-            <div class="recipe-card premium" data-recipe="souffle">
-                <div class="recipe-img" style="background-image: url('https://images.unsplash.com/photo-1565958011704-4a87de7997a4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');">
-                    <div class="premium-lock">
-                        <i class="fas fa-lock"></i>
-                    </div>
-                </div>
-                <div class="recipe-content">
-                    <h3 class="recipe-title">French Soufflé Masterclass</h3>
-                    <div class="recipe-meta">
-                        <span><i class="fas fa-clock"></i> 50 mins</span>
-                        <span class="recipe-rating"><i class="fas fa-star"></i> 4.7</span>
-                    </div>
-                    <p class="recipe-desc">Perfect the delicate art of soufflés with chef techniques for stable egg whites, proper folding, and oven temperature control.</p>
-                    <div class="recipe-actions">
-                        <button class="btn btn-premium premium-action" data-action="view">
-                            <i class="fas fa-lock"></i> Premium
-                        </button>
-                        <button class="save-btn" data-recipe="souffle">
-                            <i class="far fa-bookmark"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Popular Recipes Section -->
-        <h2 class="section-title" style="margin-top: 50px;">Popular Free Recipes</h2>
-        <div class="recipes-grid">
-            <!-- Recipe 1 -->
-            <div class="recipe-card" data-recipe="avocado-toast">
-                <div class="recipe-img" style="background-image: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1160&q=80');">
-                    <div class="featured-badge">Popular</div>
-                </div>
-                <div class="recipe-content">
-                    <h3 class="recipe-title">Avocado Toast with Poached Eggs</h3>
-                    <div class="recipe-meta">
-                        <span><i class="fas fa-clock"></i> 15 mins</span>
-                        <span class="recipe-rating"><i class="fas fa-star"></i> 4.8</span>
-                    </div>
-                    <p class="recipe-desc">A perfect healthy breakfast with creamy avocado, perfectly poached eggs, and a sprinkle of chili flakes.</p>
-                    <div class="recipe-actions">
-                        <button class="btn view-recipe" data-recipe="avocado-toast">View Recipe</button>
-                        <button class="save-btn" data-recipe="avocado-toast">
-                            <i class="far fa-bookmark"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Recipe 2 -->
-            <div class="recipe-card" data-recipe="carbonara">
-                <div class="recipe-img" style="background-image: url('https://images.unsplash.com/photo-1547592164-6f5f5f9a1880?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');"></div>
-                <div class="recipe-content">
-                    <h3 class="recipe-title">Classic Spaghetti Carbonara</h3>
-                    <div class="recipe-meta">
-                        <span><i class="fas fa-clock"></i> 25 mins</span>
-                        <span class="recipe-rating"><i class="fas fa-star"></i> 4.9</span>
-                    </div>
-                    <p class="recipe-desc">Authentic Italian carbonara with crispy pancetta, egg sauce, and plenty of Parmigiano-Reggiano cheese.</p>
-                    <div class="recipe-actions">
-                        <button class="btn view-recipe" data-recipe="carbonara">View Recipe</button>
-                        <button class="save-btn active" data-recipe="carbonara">
-                            <i class="fas fa-bookmark"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Recipe 3 -->
-            <div class="recipe-card" data-recipe="salmon">
-                <div class="recipe-img" style="background-image: url('https://images.unsplash.com/photo-1563240670-a7c7fac1b771?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');"></div>
-                <div class="recipe-content">
-                    <h3 class="recipe-title">Grilled Salmon with Lemon Dill Sauce</h3>
-                    <div class="recipe-meta">
-                        <span><i class="fas fa-clock"></i> 25 mins</span>
-                        <span class="recipe-rating"><i class="fas fa-star"></i> 4.7</span>
-                    </div>
-                    <p class="recipe-desc">Perfectly grilled salmon fillets topped with a fresh lemon dill sauce, served with roasted asparagus.</p>
-                    <div class="recipe-actions">
-                        <button class="btn view-recipe" data-recipe="salmon">View Recipe</button>
-                        <button class="save-btn" data-recipe="salmon">
-                            <i class="far fa-bookmark"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
-    
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <p>&copy; 2026 Home Made Recipe. All rights reserved.</p>
-            <p style="font-size: 0.9rem; margin-top: 5px; opacity: 0.9;">
-                verify18+ content • Premium subscription required for foreign recipes & advanced methods
-            </p>
-            <div style="margin-top: 10px;">
-                <a href="#" style="color: var(--secondary); margin: 0 10px; text-decoration: none;">Privacy Policy</a>
-                <a href="#" style="color: var(--secondary); margin: 0 10px; text-decoration: none;">Terms of Service</a>
-                <a href="#" style="color: var(--secondary); margin: 0 10px; text-decoration: none;">Contact Us</a>
-            </div>
-        </div>
-    </footer>
-    
-    <!-- Dark Mode Toggle -->
-    <button class="dark-mode-toggle" id="darkModeToggleBtn">
-        <i class="fas fa-moon"></i>
-    </button>
-    
-    <script>
-        // DOM Elements
-        const ageModal = document.getElementById('ageModal');
-        const loginModal = document.getElementById('loginModal');
-        const premiumModal = document.getElementById('premiumModal');
-        const userProfile = document.getElementById('userProfile');
-        const dropdownMenu = document.getElementById('dropdownMenu');
-        const premiumBtn = document.getElementById('premiumBtn');
-        const bannerPremiumBtn = document.getElementById('bannerPremiumBtn');
-        const premiumStatus = document.getElementById('premiumStatus');
-        const logoutBtn = document.getElementById('logoutBtn');
-        const savedRecipes = document.getElementById('savedRecipes');
-        const myAccount = document.getElementById('myAccount');
-        const myVideos = document.getElementById('myVideos');
-        const myLifestyle = document.getElementById('myLifestyle');
-        const subscribeBtn = document.getElementById('subscribeBtn');
-        const searchInput = document.getElementById('searchInput');
-        const featuredSave = document.getElementById('featuredSave');
-        const startCooking = document.getElementById('startCooking');
-        const shareRecipe = document.getElementById('shareRecipe');
-        const addToList = document.getElementById('addToList');
-        const clearList = document.getElementById('clearList');
-        const postVideo = document.getElementById('postVideo');
-        const postLifestyle = document.getElementById('postLifestyle');
-        const findHotels = document.getElementById('findHotels');
-        const joinCommunity = document.getElementById('joinCommunity');
-        const refreshFeed = document.getElementById('refreshFeed');
-        const darkModeToggle = document.getElementById('darkModeToggle');
-        const darkModeToggleBtn = document.getElementById('darkModeToggleBtn');
-        
-        // Initialize app on load
-        document.addEventListener('DOMContentLoaded', initApp);
-        
-        function initApp() {
-            // Setup event listeners
-            setupEventListeners();
-            
-            // Check age verification
-            if (!localStorage.getItem('ageVerified')) {
-                ageModal.classList.add('active');
-            } else {
-                // Check dark mode preference
-                if (localStorage.getItem('darkMode') === 'true') {
-                    document.body.classList.add('dark-mode');
-                    darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-                    darkModeToggleBtn.innerHTML = '<i class="fas fa-sun"></i>';
-                }
-                
-                // Check login status
-                if (localStorage.getItem('userLoggedIn') === 'true') {
-                    const email = localStorage.getItem('userEmail');
-                    userProfile.textContent = email.charAt(0).toUpperCase();
-                    dropdownMenu.classList.add('active');
-                    updatePremiumStatus();
-                } else {
-                    // Show login after 2 seconds if not logged in and age verified
-                    setTimeout(() => {
-                        if (!document.querySelector('.modal.active') && localStorage.getItem('ageVerified')) {
-                            loginModal.classList.add('active');
-                        }
-                    }, 2000);
-                }
-            }
-        }
-        
-        function setupEventListeners() {
-            // Age Verification
-            document.getElementById('ageYes').addEventListener('click', () => {
-                localStorage.setItem('ageVerified', 'true');
-                ageModal.classList.remove('active');
-                showNotification('✓ Age verified! Welcome to Home Made Recipe');
-                
-                // Show login prompt after age verification
-                setTimeout(() => {
-                    if (!localStorage.getItem('userLoggedIn')) {
-                        showNotification('Please log in to access all features');
-                        loginModal.classList.add('active');
-                    }
-                }, 1500);
-            });
-            
-            document.getElementById('ageNo').addEventListener('click', () => {
-                showNotification('❌ You must be 18+ to use this app. Redirecting...');
-                setTimeout(() => {
-                    window.location.href = 'https://www.google.com';
-                }, 2000);
-            });
-            
-            document.getElementById('ageClose').addEventListener('click', (e) => {
-                e.preventDefault();
-                showNotification('❌ Age verification required to continue');
-            });
-            
-            // Login/Signup
-            document.getElementById('loginSubmit').addEventListener('click', handleLogin);
-            document.getElementById('signupSubmit').addEventListener('click', handleSignup);
-            document.getElementById('loginClose').addEventListener('click', () => loginModal.classList.remove('active'));
-            document.getElementById('switchToSignup').addEventListener('click', switchToSignup);
-            
-            // Premium
-            premiumBtn.addEventListener('click', handlePremiumClick);
-            bannerPremiumBtn.addEventListener('click', () => premiumModal.classList.add('active'));
-            subscribeBtn.addEventListener('click', handleSubscription);
-            document.getElementById('premiumClose').addEventListener('click', () => premiumModal.classList.remove('active'));
-            
-            // User Profile
-            userProfile.addEventListener('click', toggleDropdown);
-            logoutBtn.addEventListener('click', handleLogout);
-            savedRecipes.addEventListener('click', (e) => {
-                e.preventDefault();
-                showNotification('📚 Showing your saved recipes...');
-            });
-            myAccount.addEventListener('click', (e) => {
-                e.preventDefault();
-                showAccountInfo();
-            });
-            myVideos.addEventListener('click', (e) => {
-                e.preventDefault();
-                showNotification('🎥 Creating your first cooking video!');
-                premiumModal.classList.add('active');
-            });
-            myLifestyle.addEventListener('click', (e) => {
-                e.preventDefault();
-                showNotification('📸 Share your food adventures and travel experiences!');
-                premiumModal.classList.add('active');
-            });
-            
-            // Recipe Actions
-            document.querySelectorAll('.save-btn').forEach(btn => {
-                btn.addEventListener('click', toggleSaveRecipe);
-            });
-            
-            document.querySelectorAll('.view-recipe').forEach(btn => {
-                btn.addEventListener('click', viewRecipe);
-            });
-            
-            document.querySelectorAll('.premium-action').forEach(btn => {
-                btn.addEventListener('click', handlePremiumRecipe);
-            });
-            
-            // Category Selection
-            document.querySelectorAll('.category-card').forEach(card => {
-                card.addEventListener('click', selectCategory);
-            });
-            
-            // Search
-            searchInput.addEventListener('input', handleSearch);
-            
-            // Featured Recipe Actions
-            featuredSave.addEventListener('click', toggleFeaturedSave);
-            startCooking.addEventListener('click', () => showNotification('👨‍🍳 Starting your cooking timer for Creamy Mushroom Risotto!'));
-            shareRecipe.addEventListener('click', handleShareRecipe);
-            
-            // Shopping List
-            addToList.addEventListener('click', addToShoppingList);
-            clearList.addEventListener('click', clearShoppingList);
-            
-            // New Features
-            postVideo.addEventListener('click', () => {
-                showNotification('🎥 Posting your cooking video!');
-                premiumModal.classList.add('active');
-            });
-            
-            postLifestyle.addEventListener('click', () => {
-                showNotification('📸 Sharing your food adventure!');
-                premiumModal.classList.add('active');
-            });
-            
-            findHotels.addEventListener('click', () => {
-                showNotification('🏨 Finding the best restaurants for your next trip!');
-                premiumModal.classList.add('active');
-            });
-            
-            joinCommunity.addEventListener('click', () => {
-                showNotification('👨‍👩‍👧‍👦 Welcome to our food community!');
-                premiumModal.classList.add('active');
-            });
-            
-            refreshFeed.addEventListener('click', () => {
-                showNotification('🔄 Refreshing community feed...');
-            });
-            
-            // Dark Mode Toggle
-            darkModeToggle.addEventListener('click', toggleDarkMode);
-            darkModeToggleBtn.addEventListener('click', toggleDarkMode);
-            
-            // Close dropdown when clicking outside
-            document.addEventListener('click', (e) => {
-                if (!userProfile.contains(e.target) && !dropdownMenu.contains(e.target) && dropdownMenu.classList.contains('active')) {
-                    dropdownMenu.classList.remove('active');
-                }
-            });
-        }
-        
-        function handleLogin() {
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            
-            if (email && password) {
-                // Simulate login
-                localStorage.setItem('userLoggedIn', 'true');
-                localStorage.setItem('userEmail', email);
-                if (!localStorage.getItem('isPremium')) {
-                    localStorage.setItem('isPremium', 'false');
-                }
-                
-                // Set user initial
-                userProfile.textContent = email.charAt(0).toUpperCase();
-                
-                loginModal.classList.remove('active');
-                dropdownMenu.classList.add('active');
-                updatePremiumStatus();
-                showNotification(`✓ Welcome back, ${email.split('@')[0]}!`);
-            } else {
-                showNotification('❌ Please fill in all fields');
-            }
-        }
-        
-        function handleSignup() {
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            
-            if (email && password && password.length >= 6) {
-                // Simulate signup
-                localStorage.setItem('userLoggedIn', 'true');
-                localStorage.setItem('userEmail', email);
-                localStorage.setItem('isPremium', 'false'); // Default free account
-                localStorage.setItem('savedRecipes', JSON.stringify(['carbonara'])); // Default saved recipe
-                
-                // Set user initial
-                userProfile.textContent = email.charAt(0).toUpperCase();
-                
-                loginModal.classList.remove('active');
-                dropdownMenu.classList.add('active');
-                updatePremiumStatus();
-                showNotification(`✓ Account created for ${email.split('@')[0]}! Start cooking!`);
-            } else {
-                showNotification('❌ Password must be at least 6 characters');
-            }
-        }
-        
-        function switchToSignup() {
-            document.getElementById('authTitle').textContent = 'Create New Account';
-            document.getElementById('loginSubmit').style.display = 'none';
-            document.getElementById('signupSubmit').style.display = 'block';
-        }
-        
-        function handlePremiumClick() {
-            if (localStorage.getItem('userLoggedIn') !== 'true') {
-                showNotification('❌ Please log in first to access Premium features');
-                loginModal.classList.add('active');
-                return;
-            }
-            
-            if (localStorage.getItem('isPremium') === 'true') {
-                showNotification('✨ You already have Premium access!');
-                return;
-            }
-            
-            premiumModal.classList.add('active');
-        }
-        
-        function handleSubscription() {
-            // Simulate subscription
-            localStorage.setItem('isPremium', 'true');
-            localStorage.setItem('premiumExpiry', new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString()); // 7-day trial
-            
-            premiumModal.classList.remove('active');
-            updatePremiumStatus();
-            unlockPremiumContent();
-            showNotification('✨ Welcome to Premium! 7-day free trial activated');
-        }
-        
-        function handleLogout() {
-            localStorage.removeItem('userLoggedIn');
-            localStorage.removeItem('userEmail');
-            localStorage.removeItem('isPremium');
-            localStorage.removeItem('premiumExpiry');
-            dropdownMenu.classList.remove('active');
-            userProfile.textContent = 'HR';
-            premiumStatus.textContent = 'Free Account';
-            document.getElementById('premiumBtn').disabled = false;
-            document.getElementById('premiumBtn').innerHTML = '<i class="fas fa-crown"></i> Go Premium';
-            lockPremiumContent();
-            showNotification('✓ Successfully logged out');
-        }
-        
-        function toggleSaveRecipe(e) {
-            const btn = e.currentTarget;
-            const recipeId = btn.getAttribute('data-recipe');
-            btn.classList.toggle('active');
-            
-            // Update icon
-            const icon = btn.querySelector('i');
-            if (btn.classList.contains('active')) {
-                icon.classList.remove('far');
-                icon.classList.add('fas');
-                saveRecipe(recipeId);
-                showNotification(`✅ "${getRecipeName(recipeId)}" saved to your collection!`);
-            } else {
-                icon.classList.remove('fas');
-                icon.classList.add('far');
-                unsaveRecipe(recipeId);
-                showNotification(`❌ "${getRecipeName(recipeId)}" removed from your collection`);
-            }
-        }
-        
-        function toggleFeaturedSave() {
-            featuredSave.classList.toggle('active');
-            const icon = featuredSave.querySelector('i');
-            if (featuredSave.classList.contains('active')) {
-                icon.classList.add('fas');
-                saveRecipe('featured');
-                showNotification('✅ "Creamy Mushroom Risotto" saved to your collection!');
-            } else {
-                icon.classList.remove('fas');
-                unsaveRecipe('featured');
-                showNotification('❌ "Creamy Mushroom Risotto" removed from your collection');
-            }
-        }
-        
-        function saveRecipe(recipeId) {
-            let saved = JSON.parse(localStorage.getItem('savedRecipes') || '[]');
-            if (!saved.includes(recipeId)) {
-                saved.push(recipeId);
-                localStorage.setItem('savedRecipes', JSON.stringify(saved));
-            }
-        }
-        
-        function unsaveRecipe(recipeId) {
-            let saved = JSON.parse(localStorage.getItem('savedRecipes') || '[]');
-            saved = saved.filter(id => id !== recipeId);
-            localStorage.setItem('savedRecipes', JSON.stringify(saved));
-        }
-        
-        function getRecipeName(id) {
-            const names = {
-                'avocado-toast': 'Avocado Toast with Poached Eggs',
-                'carbonara': 'Classic Spaghetti Carbonara',
-                'salmon': 'Grilled Salmon with Lemon Dill Sauce',
-                'thai-curry': 'Authentic Thai Green Curry',
-                'ramen': 'Japanese Ramen (Tonkotsu)',
-                'souffle': 'French Soufflé Masterclass',
-                'featured': 'Creamy Mushroom Risotto'
-            };
-            return names[id] || id;
-        }
-        
-        function viewRecipe(e) {
-            const recipeId = e.currentTarget.getAttribute('data-recipe');
-            showNotification(`👨‍🍳 Opening "${getRecipeName(recipeId)}" recipe...`);
-            document.getElementById('featured-recipe').scrollIntoView({ behavior: 'smooth' });
-        }
-        
-        function handlePremiumRecipe(e) {
-            e.preventDefault();
-            if (localStorage.getItem('isPremium') === 'true') {
-                const recipeId = e.currentTarget.closest('.recipe-card').getAttribute('data-recipe');
-                showNotification(`✨ Enjoy your premium recipe: "${getRecipeName(recipeId)}"!`);
-            } else {
-                showNotification('🔒 Premium content requires subscription');
-                premiumModal.classList.add('active');
-            }
-        }
-        
-        function selectCategory(e) {
-            const category = e.currentTarget.getAttribute('data-category');
-            
-            // Update active state
-            document.querySelectorAll('.category-card').forEach(card => {
-                card.classList.remove('active');
-            });
-            e.currentTarget.classList.add('active');
-            
-            // Check if premium category
-            if (e.currentTarget.classList.contains('premium') && localStorage.getItem('isPremium') !== 'true') {
-                showNotification(`🔒 "${e.currentTarget.querySelector('div').textContent}" recipes require Premium`);
-                premiumModal.classList.add('active');
-                return;
-            }
-            
-            showNotification(`✅ Showing ${e.currentTarget.querySelector('div').textContent} recipes`);
-        }
-        
-        function handleSearch(e) {
-            const searchTerm = e.target.value.toLowerCase().trim();
-            if (searchTerm.length > 2) {
-                showNotification(`🔍 Searching for "${searchTerm}"...`);
-            }
-        }
-        
-        function toggleDropdown() {
-            if (localStorage.getItem('userLoggedIn') === 'true') {
-                dropdownMenu.classList.toggle('active');
-            } else {
-                loginModal.classList.add('active');
-            }
-        }
-        
-        function showAccountInfo() {
-            if (localStorage.getItem('isPremium') === 'true') {
-                const expiry = new Date(localStorage.getItem('premiumExpiry'));
-                showNotification(`👑 Premium Account\nTrial expires: ${expiry.toLocaleDateString()}`);
-            } else {
-                showNotification(`👤 Free Account\nUpgrade to Premium for international recipes & advanced techniques`);
-            }
-        }
-        
-        function updatePremiumStatus() {
-            if (localStorage.getItem('isPremium') === 'true') {
-                premiumStatus.innerHTML = '<i class="fas fa-crown"></i> Premium Member';
-                document.getElementById('premiumBtn').innerHTML = '<i class="fas fa-check"></i> Premium Active';
-                document.getElementById('premiumBtn').disabled = true;
-            } else {
-                premiumStatus.innerHTML = '<i class="fas fa-user"></i> Free Account';
-                document.getElementById('premiumBtn').disabled = false;
-                document.getElementById('premiumBtn').innerHTML = '<i class="fas fa-crown"></i> Go Premium';
-            }
-        }
-        
-        function unlockPremiumContent() {
-            // Unlock premium recipe buttons
-            document.querySelectorAll('.recipe-card.premium .premium-action').forEach(btn => {
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-eye"></i> View Recipe';
-                btn.classList.remove('btn-premium');
-                btn.classList.add('btn-primary');
-                btn.removeEventListener('click', handlePremiumRecipe);
-                btn.addEventListener('click', (e) => {
-                    const recipeId = e.currentTarget.closest('.recipe-card').getAttribute('data-recipe');
-                    showNotification(`✨ Enjoy your premium recipe: "${getRecipeName(recipeId)}"!`);
-                });
-            });
-            
-            // Hide lock icons
-            document.querySelectorAll('.premium-lock').forEach(lock => {
-                lock.style.display = 'none';
-            });
-            
-            // Enable premium categories
-            document.querySelectorAll('.category-card.premium').forEach(card => {
-                card.style.opacity = '1';
-                card.style.cursor = 'pointer';
-            });
-            
-            // SHOW TRAVEL SECTION FOR PREMIUM USERS
-            const travelSection = document.getElementById('travelSection');
-            if (travelSection) {
-                travelSection.style.display = 'block';
-            }
-        }
-        
-        function lockPremiumContent() {
-            // Lock premium recipe buttons
-            document.querySelectorAll('.recipe-card.premium .premium-action').forEach(btn => {
-                btn.disabled = true;
-                btn.innerHTML = '<i class="fas fa-lock"></i> Premium';
-                btn.classList.add('btn-premium');
-                btn.classList.remove('btn-primary');
-                btn.removeEventListener('click', handlePremiumRecipe);
-                btn.addEventListener('click', handlePremiumRecipe);
-            });
-            
-            // Show lock icons
-            document.querySelectorAll('.premium-lock').forEach(lock => {
-                lock.style.display = 'flex';
-            });
-            
-            // Disable premium categories
-            document.querySelectorAll('.category-card.premium').forEach(card => {
-                card.style.opacity = '0.6';
-                card.style.cursor = 'not-allowed';
-            });
-            
-            // HIDE TRAVEL SECTION
-            const travelSection = document.getElementById('travelSection');
-            if (travelSection) {
-                travelSection.style.display = 'none';
-            }
-        }
-        
-        function addToShoppingList() {
-            showNotification('🛒 Added ingredients to your shopping list!');
-        }
-        
-        function clearShoppingList() {
-            showNotification('🧹 Shopping list cleared!');
-        }
-        
-        function handleShareRecipe() {
-            const url = window.location.href;
-            if (navigator.share) {
-                // Mobile sharing (iOS/Android)
-                navigator.share({
-                    title: 'Check out this recipe!',
-                    url: url
-                }).catch(console.error);
-            } else {
-                // Desktop: copy to clipboard
-                navigator.clipboard.writeText(url).then(() => {
-                    showNotification('🔗 Link copied! Paste anywhere to share.');
-                });
-            }
-        }
-        
-        function toggleDarkMode() {
-            document.body.classList.toggle('dark-mode');
-            const isDarkMode = document.body.classList.contains('dark-mode');
-            localStorage.setItem('darkMode', isDarkMode);
-            
-            // Update toggle icon
-            if (isDarkMode) {
-                darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-                darkModeToggleBtn.innerHTML = '<i class="fas fa-sun"></i>';
-                showNotification('🌙 Dark mode activated');
-            } else {
-                darkModeToggle.innerHTML = '<i class="fas fa-moon"></i>';
-                darkModeToggleBtn.innerHTML = '<i class="fas fa-moon"></i>';
-                showNotification('☀️ Light mode activated');
-            }
-        }
-        
-        function showNotification(message) {
-            // Remove existing notifications
-            const existing = document.querySelector('.notification');
-            if (existing) existing.remove();
-            
-            // Create notification element
-            const notification = document.createElement('div');
-            notification.className = 'notification';
-            notification.innerHTML = message.replace(/\n/g, '<br>');
-            
-            // Add to body
-            document.body.appendChild(notification);
-            
-            // Auto-remove after animation
-            setTimeout(() => {
-                if (notification.parentNode) {
-                    notification.remove();
-                }
-            }, 3000);
-        }
-    </script>
-</body>
-</html>
+                <!-- Recipe 3 -->
+                <div class="recipe-card" data-recipe="salmon">
+                    <div class="recipe-img" style="background-image: url('https://images.unsplash.com/photo-1563240670-a7c7facfac
