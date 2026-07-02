@@ -2057,6 +2057,355 @@
         .message .text {
             font-size: 0.9rem;
         }
+        
+        /* TikTok-Style Navigation */
+        .tiktok-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: white;
+            padding: 15px 0;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.9rem;
+            color: var(--gray);
+            cursor: pointer;
+        }
+        
+        .nav-item.active {
+            color: var(--primary);
+        }
+        
+        .nav-item i {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ff3b30;
+            color: white;
+            font-size: 0.7rem;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        /* TikTok-Style Profile */
+        .tiktok-profile {
+            background: var(--body-bg);
+            color: var(--text-color);
+        }
+        
+        .tiktok-profile .profile-header {
+            position: relative;
+            height: 200px;
+        }
+        
+        .tiktok-profile .profile-cover {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        .tiktok-profile .profile-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: blur(5px);
+            transform: scale(1.1);
+        }
+        
+        .tiktok-profile .profile-avatar {
+            position: absolute;
+            bottom: -50px;
+            left: 20px;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid var(--body-bg);
+        }
+        
+        .tiktok-profile .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .tiktok-profile .profile-edit {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--secondary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+        
+        .tiktok-profile .profile-info {
+            padding: 0 20px;
+            margin-top: 70px;
+        }
+        
+        .tiktok-profile .profile-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+        
+        .tiktok-profile .stat {
+            text-align: center;
+        }
+        
+        .tiktok-profile .stat-value {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .tiktok-profile .stat-label {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+        
+        .tiktok-profile .profile-name {
+            margin-bottom: 15px;
+        }
+        
+        .tiktok-profile .profile-username {
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+        
+        .tiktok-profile .profile-fullname {
+            font-size: 1.1rem;
+            color: var(--gray);
+        }
+        
+        .tiktok-profile .profile-bio {
+            margin-bottom: 20px;
+        }
+        
+        .tiktok-profile .profile-actions {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .tiktok-profile .profile-tabs {
+            display: flex;
+            border-bottom: 1px solid #eee;
+            margin: 0 20px 15px;
+        }
+        
+        .tiktok-profile .profile-tabs .tab {
+            flex: 1;
+            text-align: center;
+            padding: 12px 0;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        .tiktok-profile .profile-tabs .tab.active {
+            border-bottom: 3px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .tiktok-profile .profile-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        /* TikTok-Style Messages */
+        .tiktok-messages {
+            background: var(--body-bg);
+            height: 100vh;
+            overflow-y: auto;
+        }
+        
+        .tiktok-messages .messages-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .tiktok-messages .messages-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .tiktok-messages .messages-search {
+            display: flex;
+            align-items: center;
+            background: #f0f0f0;
+            border-radius: 50px;
+            padding: 8px 15px;
+            width: 200px;
+        }
+        
+        .tiktok-messages .messages-search input {
+            border: none;
+            background: transparent;
+            outline: none;
+            width: 100%;
+        }
+        
+        .tiktok-messages .message-item {
+            display: flex;
+            padding: 15px 20px;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .tiktok-messages .message-avatar {
+            position: relative;
+            margin-right: 15px;
+        }
+        
+        .tiktok-messages .message-avatar img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .tiktok-messages .message-status {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #4cd137;
+            border: 2px solid var(--body-bg);
+        }
+        
+        .tiktok-messages .message-content {
+            flex: 1;
+        }
+        
+        .tiktok-messages .message-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+        
+        .tiktok-messages .message-name {
+            font-weight: 600;
+        }
+        
+        .tiktok-messages .message-time {
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+        
+        .tiktok-messages .message-preview {
+            font-size: 0.9rem;
+            color: var(--gray);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .tiktok-messages .message-activity {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .tiktok-messages .message-count {
+            background: #f0f0f0;
+            padding: 3px 8px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+        }
+        
+        /* TikTok-Style Friends */
+        .friends-section {
+            margin-top: 30px;
+        }
+        
+        .friends-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .friend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px;
+            border-radius: 12px;
+            background: white;
+            box-shadow: var(--shadow);
+        }
+        
+        .friend-avatar {
+            position: relative;
+        }
+        
+        .friend-avatar img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .friend-status {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #4cd137;
+            border: 2px solid var(--body-bg);
+        }
+        
+        .friend-info {
+            flex: 1;
+        }
+        
+        .friend-name {
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+        
+        .friend-username {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+        
+        .friend-btn {
+            padding: 8px 15px;
+            border-radius: 50px;
+        }
     </style>
 </head>
 <body>
@@ -2111,6 +2460,31 @@
             </div>
         </div>
     </header>
+    
+    <!-- TikTok-Style Bottom Navigation -->
+    <div class="tiktok-nav">
+        <div class="nav-item active">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-users"></i>
+            <span>Friends</span>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-plus-circle"></i>
+            <span></span>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-inbox"></i>
+            <span>Inbox</span>
+            <span class="notification-badge">10</span>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-user"></i>
+            <span>Profile</span>
+        </div>
+    </div>
     
     <!-- Main Content -->
     <main class="container">
@@ -2444,4 +2818,348 @@
                 
                 <!-- Recipe 3 -->
                 <div class="recipe-card" data-recipe="salmon">
-                    <div class="recipe-img" style="background-image: url('https://images.unsplash.com/photo-1563240670-a7c7facfac
+                    <div class="recipe-img" style="background-image: url('https://images.unsplash.com/photo-1563240670-a7c7fac1b771?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');"></div>
+                    <div class="recipe-content">
+                        <h3 class="recipe-title">Grilled Salmon with Lemon Dill Sauce</h3>
+                        <div class="recipe-meta">
+                            <span><i class="fas fa-clock"></i> 25 mins</span>
+                            <span class="recipe-rating"><i class="fas fa-star"></i> 4.7</span>
+                        </div>
+                        <p class="recipe-desc">Perfectly grilled salmon fillets topped with a fresh lemon dill sauce, served with roasted asparagus.</p>
+                        <div class="recipe-actions">
+                            <button class="btn view-recipe" data-recipe="salmon">View Recipe</button>
+                            <button class="save-btn" data-recipe="salmon">
+                                <i class="far fa-bookmark"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Videos Tab Content -->
+        <div class="tab-content" id="videos-content">
+            <div class="video-feed">
+                <div class="video-container">
+                    <div class="video-header">
+                        <h2>Cooking Videos</h2>
+                        <button class="btn" id="uploadVideo">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                    <div class="video-player">
+                        <div class="video-placeholder">
+                            <i class="fas fa-video"></i>
+                            <h3>Welcome to Cooking Videos!</h3>
+                            <p>Watch amazing cooking tutorials from chefs around the world. Upload your own videos to share your skills!</p>
+                        </div>
+                    </div>
+                    <div class="video-info">
+                        <div class="author">
+                            <div class="author-avatar">C</div>
+                            <div class="author-info">
+                                <div class="author-name">Chef Maria</div>
+                                <div class="author-username">@chefmaria</div>
+                            </div>
+                        </div>
+                        <div class="video-caption">
+                            Learn how to make the perfect risotto with these simple techniques!
+                        </div>
+                        <div class="video-tags">
+                            <span class="video-tag">#risotto</span>
+                            <span class="video-tag">#italian</span>
+                            <span class="video-tag">#cooking</span>
+                        </div>
+                    </div>
+                    <div class="video-actions">
+                        <div class="video-action">
+                            <i class="fas fa-heart"></i>
+                            <span class="count">1.2K</span>
+                        </div>
+                        <div class="video-action">
+                            <i class="fas fa-comment"></i>
+                            <span class="count">89</span>
+                        </div>
+                        <div class="video-action">
+                            <i class="fas fa-share"></i>
+                            <span class="count">45</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Recipes Tab Content -->
+        <div class="tab-content" id="recipes-content">
+            <h1 class="section-title">All Recipes</h1>
+            <div class="recipes-grid">
+                <!-- Recipe cards will be loaded here -->
+                <div class="recipe-card" data-recipe="avocado-toast">
+                    <div class="recipe-img" style="background-image: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1160&q=80');">
+                        <div class="featured-badge">Popular</div>
+                    </div>
+                    <div class="recipe-content">
+                        <h3 class="recipe-title">Avocado Toast with Poached Eggs</h3>
+                        <div class="recipe-meta">
+                            <span><i class="fas fa-clock"></i> 15 mins</span>
+                            <span class="recipe-rating"><i class="fas fa-star"></i> 4.8</span>
+                        </div>
+                        <p class="recipe-desc">A perfect healthy breakfast with creamy avocado, perfectly poached eggs, and a sprinkle of chili flakes.</p>
+                        <div class="recipe-actions">
+                            <button class="btn view-recipe" data-recipe="avocado-toast">View Recipe</button>
+                            <button class="save-btn" data-recipe="avocado-toast">
+                                <i class="far fa-bookmark"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- More recipe cards... -->
+            </div>
+        </div>
+        
+        <!-- Social Tab Content -->
+        <div class="tab-content" id="social-content">
+            <h1 class="section-title">Community Feed</h1>
+            <div class="social-feed">
+                <div class="feed-header">
+                    <h2 class="feed-title">Latest Posts</h2>
+                    <button class="btn" id="createPost">
+                        <i class="fas fa-plus"></i> New Post
+                    </button>
+                </div>
+                
+                <!-- Post 1 -->
+                <div class="feed-post">
+                    <div class="post-header">
+                        <div class="post-author">
+                            <div class="author-avatar">A</div>
+                            <div class="author-info">
+                                <div class="author-name">Alex Johnson</div>
+                                <div class="post-time">2 hours ago</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="post-content">
+                        <img src="https://images.unsplash.com/photo-1571115177098-24ec42ed204d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" 
+                             alt="Sushi" class="post-image">
+                        <div class="post-caption">
+                            <p>Just mastered this homemade sushi roll! Took me 3 tries but finally got the rice perfect. What do you think? #sushilover #homemade</p>
+                        </div>
+                    </div>
+                    
+                    <div class="post-likes">
+                        <div><i class="fas fa-heart"></i> <span class="like-count">248</span></div>
+                    </div>
+                    
+                    <div class="post-actions">
+                        <div class="post-action">
+                            <i class="far fa-heart"></i> Like
+                        </div>
+                        <div class="post-action">
+                            <i class="far fa-comment"></i> Comment
+                        </div>
+                        <div class="post-action">
+                            <i class="far fa-share-square"></i> Share
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- More posts... -->
+            </div>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Home Made Recipe. All rights reserved.</p>
+            <p style="font-size: 0.9rem; margin-top: 5px; opacity: 0.9;">
+                verify18+ content • Premium subscription required for foreign recipes & advanced methods
+            </p>
+            <div style="margin-top: 10px;">
+                <a href="#" style="color: var(--secondary); margin: 0 10px; text-decoration: none;">Privacy Policy</a>
+                <a href="#" style="color: var(--secondary); margin: 0 10px; text-decoration: none;">Terms of Service</a>
+                <a href="#" style="color: var(--secondary); margin: 0 10px; text-decoration: none;">Contact Us</a>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Dark Mode Toggle -->
+    <button class="dark-mode-toggle" id="darkModeToggleBtn">
+        <i class="fas fa-moon"></i>
+    </button>
+    
+    <script>
+        // DOM Elements
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+        const userProfile = document.getElementById('userProfile');
+        const dropdownMenu = document.getElementById('dropdownMenu');
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const darkModeToggleBtn = document.getElementById('darkModeToggleBtn');
+        
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', initApp);
+        
+        function initApp() {
+            setupEventListeners();
+            checkDarkMode();
+            checkUserAuth();
+        }
+        
+        function setupEventListeners() {
+            // Tab switching
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const tabId = tab.getAttribute('data-tab');
+                    
+                    // Update active tab
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    
+                    // Show corresponding content
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    document.getElementById(`${tabId}-content`).classList.add('active');
+                });
+            });
+            
+            // Dark mode toggle
+            darkModeToggle.addEventListener('click', toggleDarkMode);
+            darkModeToggleBtn.addEventListener('click', toggleDarkMode);
+            
+            // User profile dropdown
+            userProfile.addEventListener('click', () => {
+                dropdownMenu.classList.toggle('active');
+            });
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!userProfile.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                    dropdownMenu.classList.remove('active');
+                }
+            });
+        }
+        
+        function checkDarkMode() {
+            if (localStorage.getItem('darkMode') === 'true') {
+                document.body.classList.add('dark-mode');
+                updateDarkModeIcon(true);
+            }
+        }
+        
+        function toggleDarkMode() {
+            const isDarkMode = document.body.classList.toggle('dark-mode');
+            localStorage.setItem('darkMode', isDarkMode);
+            updateDarkModeIcon(isDarkMode);
+        }
+        
+        function updateDarkModeIcon(isDarkMode) {
+            const iconHtml = isDarkMode ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+            darkModeToggle.innerHTML = iconHtml;
+            darkModeToggleBtn.innerHTML = iconHtml;
+        }
+        
+        function checkUserAuth() {
+            // Check if user is logged in (simulated for now)
+            const isLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
+            if (isLoggedIn) {
+                const email = localStorage.getItem('userEmail');
+                userProfile.textContent = email.charAt(0).toUpperCase();
+            } else {
+                // Show login modal after 2 seconds
+                setTimeout(() => {
+                    showLoginModal();
+                }, 2000);
+            }
+        }
+        
+        function showLoginModal() {
+            // Create login modal
+            const modal = document.createElement('div');
+            modal.className = 'modal active';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <button class="modal-close">&times;</button>
+                    <h2 class="modal-title">Login to Your Account</h2>
+                    <form class="login-form">
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" placeholder="your@email.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" placeholder="••••••••" required>
+                        </div>
+                        <div class="auth-buttons">
+                            <button type="button" class="auth-btn login-btn">Login</button>
+                            <button type="button" class="auth-btn signup-btn">Sign Up</button>
+                        </div>
+                    </form>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Setup modal events
+            modal.querySelector('.modal-close').addEventListener('click', () => {
+                modal.remove();
+            });
+            
+            modal.querySelector('.login-btn').addEventListener('click', () => {
+                handleLogin(modal);
+            });
+            
+            modal.querySelector('.signup-btn').addEventListener('click', () => {
+                handleSignup(modal);
+            });
+        }
+        
+        function handleLogin(modal) {
+            const email = modal.querySelector('#email').value;
+            const password = modal.querySelector('#password').value;
+            
+            if (email && password) {
+                // Simulate login
+                localStorage.setItem('userLoggedIn', 'true');
+                localStorage.setItem('userEmail', email);
+                
+                // Update UI
+                userProfile.textContent = email.charAt(0).toUpperCase();
+                dropdownMenu.classList.add('active');
+                modal.remove();
+                showNotification(`✓ Welcome back, ${email.split('@')[0]}!`);
+            }
+        }
+        
+        function handleSignup(modal) {
+            const email = modal.querySelector('#email').value;
+            const password = modal.querySelector('#password').value;
+            
+            if (email && password && password.length >= 6) {
+                // Simulate signup
+                localStorage.setItem('userLoggedIn', 'true');
+                localStorage.setItem('userEmail', email);
+                
+                // Update UI
+                userProfile.textContent = email.charAt(0).toUpperCase();
+                dropdownMenu.classList.add('active');
+                modal.remove();
+                showNotification(`✓ Account created for ${email.split('@')[0]}!`);
+            }
+        }
+        
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.innerHTML = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
