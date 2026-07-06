@@ -21,7 +21,10 @@
             --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             --radius: 12px;
             --transition: all 0.3s ease;
-            
+            --video-bg: #0f172a;
+            --video-text: #ffffff;
+        }
+
         .dark-mode .user-profile {
             background: var(--secondary);
         }
@@ -2744,6 +2747,241 @@
                 <!-- More posts... -->
             </div>
         </div>
+
+        <!-- Profile Page -->
+        <div id="profile-page" class="profile-page" style="display: none;">
+            <div class="profile-sidebar">
+                <div class="profile-header">
+                    <div class="profile-avatar">HR</div>
+                    <h2 class="profile-name" id="profileName">Home Recipe</h2>
+                    <p class="profile-username" id="profileUsername">@homerecipe</p>
+                </div>
+                <div class="profile-stats">
+                    <div class="stat">
+                        <div class="stat-value" id="postsCount">12</div>
+                        <div class="stat-label">Posts</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="followersCount">234</div>
+                        <div class="stat-label">Followers</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="followingCount">89</div>
+                        <div class="stat-label">Following</div>
+                    </div>
+                </div>
+                <div class="profile-actions">
+                    <button class="btn btn-primary">Edit Profile</button>
+                    <button class="btn">Share</button>
+                </div>
+                <div class="profile-bio">
+                    <h3>Bio</h3>
+                    <p>🍳 Home cooking enthusiast | Sharing my favorite recipes and food adventures daily</p>
+                </div>
+                <div class="profile-links">
+                    <a href="#" class="profile-link"><i class="fas fa-globe"></i> www.homerecipe.com</a>
+                </div>
+            </div>
+            <div class="profile-main">
+                <div class="profile-tabs">
+                    <div class="profile-tab active" data-profile-tab="posts">Posts</div>
+                    <div class="profile-tab" data-profile-tab="saved">Saved</div>
+                    <div class="profile-tab" data-profile-tab="likes">Likes</div>
+                </div>
+                <div class="profile-content" id="profile-content">
+                    <div class="recipe-card">
+                        <div class="recipe-img" style="background-image: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1160&q=80');"></div>
+                        <div class="recipe-content">
+                            <h3 class="recipe-title">Avocado Toast</h3>
+                            <div class="recipe-meta"><span>2 weeks ago</span></div>
+                        </div>
+                    </div>
+                    <div class="recipe-card">
+                        <div class="recipe-img" style="background-image: url('https://images.unsplash.com/photo-1547592164-6f5f5f9a1880?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');"></div>
+                        <div class="recipe-content">
+                            <h3 class="recipe-title">Spaghetti Carbonara</h3>
+                            <div class="recipe-meta"><span>3 weeks ago</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- My Videos Page -->
+        <div id="my-videos-page" style="display: none; margin-top: 30px;">
+            <h1 class="section-title">My Videos</h1>
+            <div style="margin-bottom: 25px;">
+                <button class="btn btn-primary" id="uploadNewVideo">
+                    <i class="fas fa-upload"></i> Upload New Video
+                </button>
+            </div>
+            <div class="recipes-grid" id="videos-grid">
+                <div style="background: white; border-radius: 12px; padding: 40px; text-align: center; grid-column: 1/-1;">
+                    <i class="fas fa-video" style="font-size: 3rem; color: #4ecdc4; margin-bottom: 15px; display: block;"></i>
+                    <h3>No videos yet</h3>
+                    <p style="color: #a4b0be; margin: 10px 0;">Upload your first cooking video to get started!</p>
+                    <button class="btn btn-primary" id="uploadFirstVideo">Upload Video</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- My Lifestyle Page -->
+        <div id="lifestyle-page" style="display: none; margin-top: 30px;">
+            <h1 class="section-title">My Lifestyle</h1>
+            <div style="margin-bottom: 25px;">
+                <button class="btn btn-primary" id="postNewLifestyle">
+                    <i class="fas fa-camera"></i> Post New Lifestyle
+                </button>
+            </div>
+            <div class="social-feed" id="lifestyle-feed">
+                <div style="text-align: center; padding: 40px;">
+                    <i class="fas fa-utensils" style="font-size: 3rem; color: #4ecdc4; margin-bottom: 15px; display: block;"></i>
+                    <h3>No lifestyle posts yet</h3>
+                    <p style="color: #a4b0be;">Share your food adventures, travels, and dining experiences!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Live Sessions Page -->
+        <div id="live-page" style="display: none; margin-top: 30px;">
+            <h1 class="section-title">Live Sessions</h1>
+            <div style="margin-bottom: 25px;">
+                <button class="btn btn-primary" id="startLiveSession">
+                    <i class="fas fa-broadcast-tower"></i> Start Live Session
+                </button>
+            </div>
+            <div class="live-session">
+                <div class="live-header">
+                    <div class="live-host">
+                        <div class="avatar">HR</div>
+                        <div class="info">
+                            <div class="name">Home Recipe</div>
+                            <div class="status">Live now</div>
+                        </div>
+                    </div>
+                    <div class="live-actions">
+                        <button class="btn"><i class="fas fa-heart"></i></button>
+                        <button class="btn"><i class="fas fa-share"></i></button>
+                    </div>
+                </div>
+                <div class="live-video">
+                    <i class="fas fa-broadcast-tower"></i>
+                    <h3>Start Your First Live Session</h3>
+                    <p>Share real-time cooking tutorials with your audience</p>
+                </div>
+                <div class="live-info">
+                    <div class="live-viewers">
+                        <i class="fas fa-eye"></i>
+                        <span>0 watching</span>
+                    </div>
+                    <button class="btn btn-primary">Go Live</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Messages Page -->
+        <div id="messages-page" class="messages-page" style="display: none;">
+            <div class="messages-sidebar">
+                <div class="message-header">
+                    <h2>Messages</h2>
+                    <button class="btn" id="newMessage">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+                <div class="message-list" id="message-list">
+                    <div class="message-item active">
+                        <div class="message-avatar">J</div>
+                        <div class="message-info">
+                            <div class="message-name">Jessica Lee</div>
+                            <div class="message-preview">That risotto recipe looks amazing!</div>
+                        </div>
+                        <div class="message-time">2h</div>
+                    </div>
+                    <div class="message-item">
+                        <div class="message-avatar">M</div>
+                        <div class="message-info">
+                            <div class="message-name">Marco Rossi</div>
+                            <div class="message-preview">Can you share the pasta recipe?</div>
+                        </div>
+                        <div class="message-time">4h</div>
+                    </div>
+                    <div class="message-item">
+                        <div class="message-avatar">S</div>
+                        <div class="message-info">
+                            <div class="message-name">Sarah Chen</div>
+                            <div class="message-preview">Love your videos!</div>
+                        </div>
+                        <div class="message-time">1d</div>
+                    </div>
+                </div>
+            </div>
+            <div class="message-content">
+                <div class="live-messages" id="chat-messages">
+                    <div class="message">
+                        <div class="avatar">J</div>
+                        <div class="content">
+                            <div class="name">Jessica Lee</div>
+                            <div class="text">That risotto recipe looks amazing! Can I ask about the technique?</div>
+                        </div>
+                    </div>
+                    <div class="message">
+                        <div class="avatar">HR</div>
+                        <div class="content">
+                            <div class="name">You</div>
+                            <div class="text">Of course! The key is patience and constant stirring. Would you like me to do a video tutorial?</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="message-input">
+                    <input type="text" id="messageInput" placeholder="Type a message...">
+                    <button class="btn" id="sendMessage">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Friends Page -->
+        <div id="friends-page" style="display: none; margin-top: 30px;">
+            <h1 class="section-title">Friends & Followers</h1>
+            <div style="display: flex; gap: 15px; margin-bottom: 25px;">
+                <button class="btn btn-primary profile-tab active" data-friends-tab="followers">Followers (45)</button>
+                <button class="btn profile-tab" data-friends-tab="following">Following (32)</button>
+                <button class="btn profile-tab" data-friends-tab="suggested">Suggested</button>
+            </div>
+            <div class="friends-grid" id="friends-content">
+                <div class="friend-item">
+                    <div class="friend-avatar">
+                        <div style="width: 50px; height: 50px; border-radius: 50%; background: #4ecdc4; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">A</div>
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Alex Johnson</div>
+                        <div class="friend-username">@alexjohnson</div>
+                    </div>
+                    <button class="btn friend-btn">Following</button>
+                </div>
+                <div class="friend-item">
+                    <div class="friend-avatar">
+                        <div style="width: 50px; height: 50px; border-radius: 50%; background: #ff6b6b; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">M</div>
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Maria Garcia</div>
+                        <div class="friend-username">@mariagarcia</div>
+                    </div>
+                    <button class="btn friend-btn">Following</button>
+                </div>
+                <div class="friend-item">
+                    <div class="friend-avatar">
+                        <div style="width: 50px; height: 50px; border-radius: 50%; background: #ffd43b; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">S</div>
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Sam Kim</div>
+                        <div class="friend-username">@samkim</div>
+                    </div>
+                    <button class="btn friend-btn">Following</button>
+                </div>
+            </div>
+        </div>
     </main>
     
     <!-- Footer -->
@@ -2797,6 +3035,26 @@ const savedRecipesLink = document.getElementById('savedRecipes');
 const saveButtons = document.querySelectorAll('.save-btn');
 const viewRecipeButtons = document.querySelectorAll('.view-recipe');
 
+// New menu elements
+const myAccountLink = document.getElementById('myAccount');
+const myVideosLink = document.getElementById('myVideos');
+const myLifestyleLink = document.getElementById('myLifestyle');
+const myLiveLink = document.getElementById('myLive');
+const messagesLink = document.getElementById('messages');
+const logoutBtn = document.getElementById('logoutBtn');
+
+// Page containers
+const mainContent = document.querySelector('main');
+const profilePage = document.getElementById('profile-page');
+const myVideosPage = document.getElementById('my-videos-page');
+const lifestylePage = document.getElementById('lifestyle-page');
+const livePage = document.getElementById('live-page');
+const messagesPage = document.getElementById('messages-page');
+const friendsPage = document.getElementById('friends-page');
+
+// Bottom nav items
+const navItems = document.querySelectorAll('.nav-item');
+
 let deferredInstallPrompt = null;
 
 const demoMode = firebaseConfig.apiKey.includes('YOUR_API_KEY');
@@ -2814,6 +3072,7 @@ function initApp() {
 function setupEventListeners() {
     tabs.forEach(tab => {
         tab.addEventListener('click', () => {
+            hideAllPages();
             const tabId = tab.getAttribute('data-tab');
             tabs.forEach(t => t.classList.remove('active'));
             tab.classList.add('active');
@@ -2854,6 +3113,136 @@ function setupEventListeners() {
             event.preventDefault();
             showSavedRecipes();
         });
+    }
+
+    // New navigation handlers
+    if (myAccountLink) {
+        myAccountLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            showProfilePage();
+        });
+    }
+
+    if (myVideosLink) {
+        myVideosLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            showMyVideosPage();
+        });
+    }
+
+    if (myLifestyleLink) {
+        myLifestyleLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            showLifestylePage();
+        });
+    }
+
+    if (myLiveLink) {
+        myLiveLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            showLivePage();
+        });
+    }
+
+    if (messagesLink) {
+        messagesLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            showMessagesPage();
+        });
+    }
+
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            handleLogout();
+        });
+    }
+
+    // Bottom nav handlers
+    navItems.forEach((item, index) => {
+        item.addEventListener('click', () => {
+            navItems.forEach(i => i.classList.remove('active'));
+            item.classList.add('active');
+            
+            switch(index) {
+                case 0: // Home
+                    hideAllPages();
+                    const homeTab = document.querySelector('.tab[data-tab="home"]');
+                    if (homeTab) homeTab.click();
+                    break;
+                case 1: // Friends
+                    showFriendsPage();
+                    break;
+                case 2: // Plus (post creation)
+                    showCreatePostModal();
+                    break;
+                case 3: // Inbox
+                    showMessagesPage();
+                    break;
+                case 4: // Profile
+                    showProfilePage();
+                    break;
+            }
+        });
+    });
+
+    // Profile tabs
+    const profileTabs = document.querySelectorAll('.profile-tab');
+    profileTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            profileTabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            const tabName = tab.getAttribute('data-profile-tab');
+            updateProfileContent(tabName);
+        });
+    });
+
+    // Friends tabs
+    const friendsTabs = document.querySelectorAll('[data-friends-tab]');
+    friendsTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            friendsTabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            const tabName = tab.getAttribute('data-friends-tab');
+            updateFriendsContent(tabName);
+        });
+    });
+
+    // Message item clicks
+    const messageItems = document.querySelectorAll('.message-item');
+    messageItems.forEach(item => {
+        item.addEventListener('click', () => {
+            messageItems.forEach(i => i.classList.remove('active'));
+            item.classList.add('active');
+        });
+    });
+
+    // Send message
+    const sendMessageBtn = document.getElementById('sendMessage');
+    const messageInput = document.getElementById('messageInput');
+    if (sendMessageBtn) {
+        sendMessageBtn.addEventListener('click', () => {
+            if (messageInput && messageInput.value.trim()) {
+                sendMessage(messageInput.value);
+                messageInput.value = '';
+            }
+        });
+    }
+
+    // Post creation buttons
+    const createPostBtn = document.getElementById('createPost');
+    if (createPostBtn) {
+        createPostBtn.addEventListener('click', showCreatePostModal);
+    }
+
+    const uploadVideoBtn = document.getElementById('uploadVideo');
+    if (uploadVideoBtn) {
+        uploadVideoBtn.addEventListener('click', showUploadVideoModal);
+    }
+
+    const postVideoBtn = document.getElementById('postVideo');
+    if (postVideoBtn) {
+        postVideoBtn.addEventListener('click', showUploadVideoModal);
     }
 
     document.addEventListener('click', (e) => {
@@ -3107,6 +3496,259 @@ function showNotification(message) {
     notification.innerHTML = message;
     document.body.appendChild(notification);
     setTimeout(() => notification.remove(), 3000);
+}
+
+// Page Navigation Functions
+function hideAllPages() {
+    const tabContents = document.querySelectorAll('.tab-content');
+    tabContents.forEach(content => content.classList.remove('active'));
+    
+    if (profilePage) profilePage.style.display = 'none';
+    if (myVideosPage) myVideosPage.style.display = 'none';
+    if (lifestylePage) lifestylePage.style.display = 'none';
+    if (livePage) livePage.style.display = 'none';
+    if (messagesPage) messagesPage.style.display = 'none';
+    if (friendsPage) friendsPage.style.display = 'none';
+}
+
+function showProfilePage() {
+    hideAllPages();
+    if (profilePage) profilePage.style.display = 'grid';
+    if (dropdownMenu) dropdownMenu.classList.remove('active');
+    updateProfilePage();
+}
+
+function showMyVideosPage() {
+    hideAllPages();
+    if (myVideosPage) myVideosPage.style.display = 'block';
+    if (dropdownMenu) dropdownMenu.classList.remove('active');
+}
+
+function showLifestylePage() {
+    hideAllPages();
+    if (lifestylePage) lifestylePage.style.display = 'block';
+    if (dropdownMenu) dropdownMenu.classList.remove('active');
+}
+
+function showLivePage() {
+    hideAllPages();
+    if (livePage) livePage.style.display = 'block';
+    if (dropdownMenu) dropdownMenu.classList.remove('active');
+}
+
+function showMessagesPage() {
+    hideAllPages();
+    if (messagesPage) messagesPage.style.display = 'grid';
+    if (dropdownMenu) dropdownMenu.classList.remove('active');
+}
+
+function showFriendsPage() {
+    hideAllPages();
+    if (friendsPage) friendsPage.style.display = 'block';
+    if (dropdownMenu) dropdownMenu.classList.remove('active');
+}
+
+function updateProfilePage() {
+    const userEmail = localStorage.getItem('userEmail') || 'Guest User';
+    const profileName = document.getElementById('profileName');
+    const profileUsername = document.getElementById('profileUsername');
+    
+    if (profileName) profileName.textContent = userEmail.split('@')[0] || 'Home Recipe';
+    if (profileUsername) profileUsername.textContent = '@' + (userEmail.split('@')[0] || 'homerecipe').toLowerCase();
+}
+
+function updateProfileContent(tabName) {
+    const profileContent = document.getElementById('profile-content');
+    if (!profileContent) return;
+    
+    switch(tabName) {
+        case 'posts':
+            profileContent.innerHTML = `
+                <div class="recipe-card">
+                    <div class="recipe-img" style="background-image: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1160&q=80');"></div>
+                    <div class="recipe-content">
+                        <h3 class="recipe-title">Avocado Toast</h3>
+                        <div class="recipe-meta"><span>2 weeks ago</span></div>
+                    </div>
+                </div>
+                <div class="recipe-card">
+                    <div class="recipe-img" style="background-image: url('https://images.unsplash.com/photo-1547592164-6f5f5f9a1880?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');"></div>
+                    <div class="recipe-content">
+                        <h3 class="recipe-title">Spaghetti Carbonara</h3>
+                        <div class="recipe-meta"><span>3 weeks ago</span></div>
+                    </div>
+                </div>
+            `;
+            break;
+        case 'saved':
+            const saved = JSON.parse(localStorage.getItem('savedRecipes') || '[]');
+            if (saved.length === 0) {
+                profileContent.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px;"><p>No saved recipes yet</p></div>';
+            } else {
+                profileContent.innerHTML = saved.map(recipe => `
+                    <div class="recipe-card">
+                        <div class="recipe-img" style="background-image: url('${recipe.imageUrl}');"></div>
+                        <div class="recipe-content">
+                            <h3 class="recipe-title">${recipe.title}</h3>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            break;
+        case 'likes':
+            profileContent.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px;"><p>No liked recipes yet</p></div>';
+            break;
+    }
+}
+
+function updateFriendsContent(tabName) {
+    const friendsContent = document.getElementById('friends-content');
+    if (!friendsContent) return;
+    
+    const friends = {
+        followers: [
+            { name: 'Alex Johnson', handle: '@alexjohnson', initial: 'A' },
+            { name: 'Maria Garcia', handle: '@mariagarcia', initial: 'M' },
+            { name: 'Sam Kim', handle: '@samkim', initial: 'S' }
+        ],
+        following: [
+            { name: 'Julia Chen', handle: '@juliachen', initial: 'J' },
+            { name: 'Marco Rossi', handle: '@marcorossi', initial: 'M' }
+        ],
+        suggested: [
+            { name: 'Emma Brown', handle: '@emmabrown', initial: 'E' },
+            { name: 'David Lee', handle: '@davidlee', initial: 'D' }
+        ]
+    };
+    
+    const friends_list = friends[tabName] || [];
+    friendsContent.innerHTML = friends_list.map(friend => `
+        <div class="friend-item">
+            <div class="friend-avatar">
+                <div style="width: 50px; height: 50px; border-radius: 50%; background: #4ecdc4; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">${friend.initial}</div>
+            </div>
+            <div class="friend-info">
+                <div class="friend-name">${friend.name}</div>
+                <div class="friend-username">${friend.handle}</div>
+            </div>
+            <button class="btn friend-btn">${tabName === 'following' ? 'Following' : 'Follow'}</button>
+        </div>
+    `).join('');
+}
+
+function sendMessage(text) {
+    const chatMessages = document.getElementById('chat-messages');
+    if (!chatMessages) return;
+    
+    const userEmail = localStorage.getItem('userEmail') || 'User';
+    const userInitial = userEmail.charAt(0).toUpperCase();
+    
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'message';
+    messageDiv.innerHTML = `
+        <div class="avatar">${userInitial}</div>
+        <div class="content">
+            <div class="name">You</div>
+            <div class="text">${text}</div>
+        </div>
+    `;
+    
+    chatMessages.appendChild(messageDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+    showNotification('Message sent!');
+}
+
+function showCreatePostModal() {
+    const modal = document.createElement('div');
+    modal.className = 'modal active';
+    modal.innerHTML = `
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <h2 class="modal-title">Create Post</h2>
+            <form class="login-form">
+                <div class="form-group">
+                    <label for="postCaption">What's on your mind?</label>
+                    <textarea id="postCaption" placeholder="Share your recipe, food photo, or cooking tip..." rows="4" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit;"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="postImage">Add Image (URL)</label>
+                    <input type="url" id="postImage" placeholder="https://example.com/image.jpg" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
+                </div>
+                <div class="auth-buttons">
+                    <button type="button" class="auth-btn login-btn" id="submitPost">Post</button>
+                    <button type="button" class="auth-btn signup-btn" style="background: #a4b0be;" id="cancelPost">Cancel</button>
+                </div>
+            </form>
+        </div>
+    `;
+    document.body.appendChild(modal);
+    
+    modal.querySelector('.modal-close').addEventListener('click', () => modal.remove());
+    document.getElementById('cancelPost').addEventListener('click', () => modal.remove());
+    document.getElementById('submitPost').addEventListener('click', () => {
+        const caption = document.getElementById('postCaption').value;
+        if (caption.trim()) {
+            showNotification('Post created successfully!');
+            modal.remove();
+        } else {
+            showNotification('Please add some content to your post');
+        }
+    });
+}
+
+function showUploadVideoModal() {
+    const modal = document.createElement('div');
+    modal.className = 'modal active';
+    modal.innerHTML = `
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <h2 class="modal-title">Upload Video</h2>
+            <form class="login-form">
+                <div class="form-group">
+                    <label for="videoTitle">Video Title</label>
+                    <input type="text" id="videoTitle" placeholder="Enter video title" required>
+                </div>
+                <div class="form-group">
+                    <label for="videoDesc">Description</label>
+                    <textarea id="videoDesc" placeholder="Describe your video..." rows="3" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit;"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="videoFile">Video File</label>
+                    <input type="file" id="videoFile" accept="video/*">
+                </div>
+                <div class="auth-buttons">
+                    <button type="button" class="auth-btn login-btn" id="submitVideo">Upload</button>
+                    <button type="button" class="auth-btn signup-btn" style="background: #a4b0be;" id="cancelVideo">Cancel</button>
+                </div>
+            </form>
+        </div>
+    `;
+    document.body.appendChild(modal);
+    
+    modal.querySelector('.modal-close').addEventListener('click', () => modal.remove());
+    document.getElementById('cancelVideo').addEventListener('click', () => modal.remove());
+    document.getElementById('submitVideo').addEventListener('click', () => {
+        const title = document.getElementById('videoTitle').value;
+        if (title.trim()) {
+            showNotification('Video uploaded successfully!');
+            modal.remove();
+        } else {
+            showNotification('Please enter a video title');
+        }
+    });
+}
+
+function handleLogout() {
+    localStorage.removeItem('userLoggedIn');
+    localStorage.removeItem('userEmail');
+    if (userProfile) userProfile.textContent = 'HR';
+    hideAllPages();
+    showNotification('Logged out successfully!');
+    setTimeout(() => {
+        const homeTab = document.querySelector('.tab[data-tab="home"]');
+        if (homeTab) homeTab.click();
+        showLoginModal();
+    }, 500);
 }
 
 function registerServiceWorker() {
