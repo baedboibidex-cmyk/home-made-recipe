@@ -6,11 +6,7 @@
     <title>Home Made Recipe - Social Cooking Platform</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Firebase SDKs -->
-    <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-storage.js"></script>
-    <style>
+                    <style>
         :root {
             --primary: #ff6b6b;
             --secondary: #4ecdc4;
@@ -23,238 +19,7 @@
             --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             --radius: 12px;
             --transition: all 0.3s ease;
-            <script type="module">
-                // Add these imports at the very top of your script section
-                import { initializeApp } from "firebase/app";
-                import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
-                import { getFirestore, collection, addDoc, serverTimestamp, onSnapshot } from "firebase/firestore";
-
-                // 🔥 REPLACE THIS SECTION WITH YOUR ACTUAL FIREBASE CONFIG
-                const firebaseConfig = {
-                    apiKey: "YOUR_API_KEY",
-                    authDomain: "YOUR_PROJECT.firebaseapp.com",
-                    projectId: "YOUR_PROJECT",
-                    storageBucket: "YOUR_PROJECT.appspot.com",
-                    messagingSenderId: "YOUR_MESSAGING_ID",
-                    appId: "YOUR_APP_ID"
-                };
-
-                // Initialize Firebase (using modular SDK)
-                const app = initializeApp(firebaseConfig);
-                const auth = getAuth(app);
-                const db = getFirestore(app);
-
-                // DOM Elements
-                const tabs = document.querySelectorAll('.tab');
-                const tabContents = document.querySelectorAll('.tab-content');
-                const userProfile = document.getElementById('userProfile');
-                const dropdownMenu = document.getElementById('dropdownMenu');
-                const darkModeToggle = document.getElementById('darkModeToggle');
-                const darkModeToggleBtn = document.getElementById('darkModeToggleBtn');
-
-                // Initialize app
-                document.addEventListener('DOMContentLoaded', initApp);
-
-                function initApp() {
-                    setupEventListeners();
-                    checkDarkMode();
-                    checkUserAuth();
-                }
-
-                function setupEventListeners() {
-                    // Tab switching
-                    tabs.forEach(tab => {
-                        tab.addEventListener('click', () => {
-                            const tabId = tab.getAttribute('data-tab');
-
-                            // Update active tab
-                            tabs.forEach(t => t.classList.remove('active'));
-                            tab.classList.add('active');
-
-                            // Show corresponding content
-                            tabContents.forEach(content => content.classList.remove('active'));
-                            document.getElementById(`${tabId}-content`).classList.add('active');
-                        });
-                    });
-
-                    // Dark mode toggle
-                    darkModeToggle.addEventListener('click', toggleDarkMode);
-                    darkModeToggleBtn.addEventListener('click', toggleDarkMode);
-
-                    // User profile dropdown
-                    userProfile.addEventListener('click', () => {
-                        dropdownMenu.classList.toggle('active');
-                    });
-
-                    // Close dropdown when clicking outside
-                    document.addEventListener('click', (e) => {
-                        if (!userProfile.contains(e.target) && !dropdownMenu.contains(e.target)) {
-                            dropdownMenu.classList.remove('active');
-                        }
-                    });
-                }
-
-                function checkDarkMode() {
-                    if (localStorage.getItem('darkMode') === 'true') {
-                        document.body.classList.add('dark-mode');
-                        updateDarkModeIcon(true);
-                    }
-                }
-
-                function toggleDarkMode() {
-                    const isDarkMode = document.body.classList.toggle('dark-mode');
-                    localStorage.setItem('darkMode', isDarkMode);
-                    updateDarkModeIcon(isDarkMode);
-                }
-
-                function updateDarkModeIcon(isDarkMode) {
-                    const iconHtml = isDarkMode ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
-                    darkModeToggle.innerHTML = iconHtml;
-                    darkModeToggleBtn.innerHTML = iconHtml;
-                }
-
-                function checkUserAuth() {
-                    // Check if user is logged in
-                    const isLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
-                    if (isLoggedIn) {
-                        const email = localStorage.getItem('userEmail');
-                        userProfile.textContent = email.charAt(0).toUpperCase();
-                    } else {
-                        // Show login modal after 2 seconds
-                        setTimeout(() => {
-                            showLoginModal();
-                        }, 2000);
-                    }
-                }
-
-                function showLoginModal() {
-                    // Create login modal
-                    const modal = document.createElement('div');
-                    modal.className = 'modal active';
-                    modal.innerHTML = `
-                        <div class="modal-content">
-                            <button class="modal-close">&times;</button>
-                            <h2 class="modal-title">Login to Your Account</h2>
-                            <form class="login-form">
-                                <div class="form-group">
-                                    <label for="email">Email Address</label>
-                                    <input type="email" id="email" placeholder="your@email.com" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="password">Password</label>
-                                    <input type="password" id="password" placeholder="••••••••" required>
-                                </div>
-                                <div class="auth-buttons">
-                                    <button type="button" class="auth-btn login-btn">Login</button>
-                                    <button type="button" class="auth-btn signup-btn">Sign Up</button>
-                                </div>
-                            </form>
-                        </div>
-                    `;
-
-                    document.body.appendChild(modal);
-
-                    // Setup modal events
-                    modal.querySelector('.modal-close').addEventListener('click', () => {
-                        modal.remove();
-                    });
-
-                    modal.querySelector('.login-btn').addEventListener('click', () => {
-                        handleLogin(modal);
-                    });
-
-                    modal.querySelector('.signup-btn').addEventListener('click', () => {
-                        handleSignup(modal);
-                    });
-                }
-
-                // 🔥 Firebase Login Function (modular)
-                function handleLogin(modal) {
-                    const email = modal.querySelector('#email').value;
-                    const password = modal.querySelector('#password').value;
-
-                    if (email && password) {
-                        // Use Firebase Modular Auth
-                        signInWithEmailAndPassword(auth, email, password)
-                            .then((userCredential) => {
-                                // Signed in
-                                localStorage.setItem('userLoggedIn', 'true');
-                                localStorage.setItem('userEmail', email);
-
-                                // Update UI
-                                userProfile.textContent = email.charAt(0).toUpperCase();
-                                dropdownMenu.classList.add('active');
-                                modal.remove();
-                                showNotification(`✓ Welcome back, ${email.split('@')[0]}!`);
-                            })
-                            .catch((error) => {
-                                showNotification(`❌ ${error.message}`);
-                            });
-                    }
-                }
-
-                // 🔥 Firebase Signup Function (modular)
-                function handleSignup(modal) {
-                    const email = modal.querySelector('#email').value;
-                    const password = modal.querySelector('#password').value;
-
-                    if (email && password && password.length >= 6) {
-                        createUserWithEmailAndPassword(auth, email, password)
-                            .then((userCredential) => {
-                                // Signed up
-                                localStorage.setItem('userLoggedIn', 'true');
-                                localStorage.setItem('userEmail', email);
-
-                                // Update UI
-                                userProfile.textContent = email.charAt(0).toUpperCase();
-                                dropdownMenu.classList.add('active');
-                                modal.remove();
-                                showNotification(`✓ Account created for ${email.split('@')[0]}!`);
-                            })
-                            .catch((error) => {
-                                showNotification(`❌ ${error.message}`);
-                            });
-                    }
-                }
-
-                // 🔥 Save recipe to database (modular Firestore)
-                async function saveRecipe(recipeData) {
-                    const user = auth.currentUser;
-
-                    if (user) {
-                        try {
-                            await addDoc(collection(db, 'recipes'), {
-                                ...recipeData,
-                                userId: user.uid,
-                                timestamp: serverTimestamp()
-                            });
-                        } catch (e) {
-                            console.error('Error adding recipe:', e);
-                        }
-                    }
-                }
-
-                // 🔥 Get all recipes (modular Firestore)
-                function loadRecipes() {
-                    const recipesRef = collection(db, 'recipes');
-                    onSnapshot(recipesRef, (snapshot) => {
-                        snapshot.forEach(doc => {
-                            console.log('Recipe:', doc.data());
-                        });
-                    });
-                }
-
-                function showNotification(message) {
-                    const notification = document.createElement('div');
-                    notification.className = 'notification';
-                    notification.innerHTML = message;
-                    document.body.appendChild(notification);
-
-                    setTimeout(() => {
-                        notification.remove();
-                    }, 3000);
-                }
-            </script>
+            
         .dark-mode .user-profile {
             background: var(--secondary);
         }
@@ -2999,175 +2764,195 @@
         <i class="fas fa-moon"></i>
     </button>
     
-    <script>
-        // DOM Elements
-        const tabs = document.querySelectorAll('.tab');
-        const tabContents = document.querySelectorAll('.tab-content');
-        const userProfile = document.getElementById('userProfile');
-        const dropdownMenu = document.getElementById('dropdownMenu');
-        const darkModeToggle = document.getElementById('darkModeToggle');
-        const darkModeToggleBtn = document.getElementById('darkModeToggleBtn');
-        
-        // Initialize app
-        document.addEventListener('DOMContentLoaded', initApp);
-        
-        function initApp() {
-            setupEventListeners();
-            checkDarkMode();
-            checkUserAuth();
+    
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
+import { getFirestore, collection, addDoc, serverTimestamp, onSnapshot } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
+// import { getStorage } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-storage.js";
+
+// 🔥 REPLACE THIS SECTION WITH YOUR ACTUAL FIREBASE CONFIG
+const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT.firebaseapp.com",
+    projectId: "YOUR_PROJECT",
+    storageBucket: "YOUR_PROJECT.appspot.com",
+    messagingSenderId: "YOUR_MESSAGING_ID",
+    appId: "YOUR_APP_ID"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+// DOM Elements
+const tabs = document.querySelectorAll('.tab');
+const tabContents = document.querySelectorAll('.tab-content');
+const userProfile = document.getElementById('userProfile');
+const dropdownMenu = document.getElementById('dropdownMenu');
+const darkModeToggle = document.getElementById('darkModeToggle');
+const darkModeToggleBtn = document.getElementById('darkModeToggleBtn');
+
+// Initialize app
+document.addEventListener('DOMContentLoaded', initApp);
+
+function initApp() {
+    setupEventListeners();
+    checkDarkMode();
+    checkUserAuth();
+}
+
+function setupEventListeners() {
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const tabId = tab.getAttribute('data-tab');
+            tabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            tabContents.forEach(content => content.classList.remove('active'));
+            document.getElementById(`${tabId}-content`).classList.add('active');
+        });
+    });
+    darkModeToggle.addEventListener('click', toggleDarkMode);
+    darkModeToggleBtn.addEventListener('click', toggleDarkMode);
+    userProfile.addEventListener('click', () => {
+        dropdownMenu.classList.toggle('active');
+    });
+    document.addEventListener('click', (e) => {
+        if (!userProfile.contains(e.target) && !dropdownMenu.contains(e.target)) {
+            dropdownMenu.classList.remove('active');
         }
-        
-        function setupEventListeners() {
-            // Tab switching
-            tabs.forEach(tab => {
-                tab.addEventListener('click', () => {
-                    const tabId = tab.getAttribute('data-tab');
-                    
-                    // Update active tab
-                    tabs.forEach(t => t.classList.remove('active'));
-                    tab.classList.add('active');
-                    
-                    // Show corresponding content
-                    tabContents.forEach(content => content.classList.remove('active'));
-                    document.getElementById(`${tabId}-content`).classList.add('active');
-                });
-            });
-            
-            // Dark mode toggle
-            darkModeToggle.addEventListener('click', toggleDarkMode);
-            darkModeToggleBtn.addEventListener('click', toggleDarkMode);
-            
-            // User profile dropdown
-            userProfile.addEventListener('click', () => {
-                dropdownMenu.classList.toggle('active');
-            });
-            
-            // Close dropdown when clicking outside
-            document.addEventListener('click', (e) => {
-                if (!userProfile.contains(e.target) && !dropdownMenu.contains(e.target)) {
-                    dropdownMenu.classList.remove('active');
-                }
-            });
-        }
-        
-        function checkDarkMode() {
-            if (localStorage.getItem('darkMode') === 'true') {
-                document.body.classList.add('dark-mode');
-                updateDarkModeIcon(true);
-            }
-        }
-        
-        function toggleDarkMode() {
-            const isDarkMode = document.body.classList.toggle('dark-mode');
-            localStorage.setItem('darkMode', isDarkMode);
-            updateDarkModeIcon(isDarkMode);
-        }
-        
-        function updateDarkModeIcon(isDarkMode) {
-            const iconHtml = isDarkMode ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
-            darkModeToggle.innerHTML = iconHtml;
-            darkModeToggleBtn.innerHTML = iconHtml;
-        }
-        
-        function checkUserAuth() {
-            // Check if user is logged in (simulated for now)
-            const isLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
-            if (isLoggedIn) {
-                const email = localStorage.getItem('userEmail');
-                userProfile.textContent = email.charAt(0).toUpperCase();
-            } else {
-                // Show login modal after 2 seconds
-                setTimeout(() => {
-                    showLoginModal();
-                }, 2000);
-            }
-        }
-        
-        function showLoginModal() {
-            // Create login modal
-            const modal = document.createElement('div');
-            modal.className = 'modal active';
-            modal.innerHTML = `
-                <div class="modal-content">
-                    <button class="modal-close">&times;</button>
-                    <h2 class="modal-title">Login to Your Account</h2>
-                    <form class="login-form">
-                        <div class="form-group">
-                            <label for="email">Email Address</label>
-                            <input type="email" id="email" placeholder="your@email.com" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="password">Password</label>
-                            <input type="password" id="password" placeholder="••••••••" required>
-                        </div>
-                        <div class="auth-buttons">
-                            <button type="button" class="auth-btn login-btn">Login</button>
-                            <button type="button" class="auth-btn signup-btn">Sign Up</button>
-                        </div>
-                    </form>
+    });
+}
+
+function checkDarkMode() {
+    if (localStorage.getItem('darkMode') === 'true') {
+        document.body.classList.add('dark-mode');
+        updateDarkModeIcon(true);
+    }
+}
+
+function toggleDarkMode() {
+    const isDarkMode = document.body.classList.toggle('dark-mode');
+    localStorage.setItem('darkMode', isDarkMode);
+    updateDarkModeIcon(isDarkMode);
+}
+
+function updateDarkModeIcon(isDarkMode) {
+    const iconHtml = isDarkMode ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+    darkModeToggle.innerHTML = iconHtml;
+    darkModeToggleBtn.innerHTML = iconHtml;
+}
+
+function checkUserAuth() {
+    const isLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
+    if (isLoggedIn) {
+        const email = localStorage.getItem('userEmail');
+        userProfile.textContent = email.charAt(0).toUpperCase();
+    } else {
+        setTimeout(() => {
+            showLoginModal();
+        }, 2000);
+    }
+}
+
+function showLoginModal() {
+    const modal = document.createElement('div');
+    modal.className = 'modal active';
+    modal.innerHTML = `
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <h2 class="modal-title">Login to Your Account</h2>
+            <form class="login-form">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" placeholder="your@email.com" required>
                 </div>
-            `;
-            
-            document.body.appendChild(modal);
-            
-            // Setup modal events
-            modal.querySelector('.modal-close').addEventListener('click', () => {
-                modal.remove();
-            });
-            
-            modal.querySelector('.login-btn').addEventListener('click', () => {
-                handleLogin(modal);
-            });
-            
-            modal.querySelector('.signup-btn').addEventListener('click', () => {
-                handleSignup(modal);
-            });
-        }
-        
-        function handleLogin(modal) {
-            const email = modal.querySelector('#email').value;
-            const password = modal.querySelector('#password').value;
-            
-            if (email && password) {
-                // Simulate login
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="••••••••" required>
+                </div>
+                <div class="auth-buttons">
+                    <button type="button" class="auth-btn login-btn">Login</button>
+                    <button type="button" class="auth-btn signup-btn">Sign Up</button>
+                </div>
+            </form>
+        </div>
+    `;
+    document.body.appendChild(modal);
+    modal.querySelector('.modal-close').addEventListener('click', () => modal.remove());
+    modal.querySelector('.login-btn').addEventListener('click', () => handleLogin(modal));
+    modal.querySelector('.signup-btn').addEventListener('click', () => handleSignup(modal));
+}
+
+function handleLogin(modal) {
+    const email = modal.querySelector('#email').value;
+    const password = modal.querySelector('#password').value;
+    if (email && password) {
+        signInWithEmailAndPassword(auth, email, password)
+            .then(() => {
                 localStorage.setItem('userLoggedIn', 'true');
                 localStorage.setItem('userEmail', email);
-                
-                // Update UI
                 userProfile.textContent = email.charAt(0).toUpperCase();
                 dropdownMenu.classList.add('active');
                 modal.remove();
                 showNotification(`✓ Welcome back, ${email.split('@')[0]}!`);
-            }
-        }
-        
-        function handleSignup(modal) {
-            const email = modal.querySelector('#email').value;
-            const password = modal.querySelector('#password').value;
-            
-            if (email && password && password.length >= 6) {
-                // Simulate signup
+            })
+            .catch((error) => {
+                showNotification(`❌ ${error.message}`);
+            });
+    }
+}
+
+function handleSignup(modal) {
+    const email = modal.querySelector('#email').value;
+    const password = modal.querySelector('#password').value;
+    if (email && password && password.length >= 6) {
+        createUserWithEmailAndPassword(auth, email, password)
+            .then(() => {
                 localStorage.setItem('userLoggedIn', 'true');
                 localStorage.setItem('userEmail', email);
-                
-                // Update UI
                 userProfile.textContent = email.charAt(0).toUpperCase();
                 dropdownMenu.classList.add('active');
                 modal.remove();
                 showNotification(`✓ Account created for ${email.split('@')[0]}!`);
-            }
+            })
+            .catch((error) => {
+                showNotification(`❌ ${error.message}`);
+            });
+    }
+}
+
+async function saveRecipe(recipeData) {
+    const user = auth.currentUser;
+    if (user) {
+        try {
+            await addDoc(collection(db, 'recipes'), {
+                ...recipeData,
+                userId: user.uid,
+                timestamp: serverTimestamp()
+            });
+        } catch (e) {
+            console.error('Error adding recipe:', e);
         }
-        
-        function showNotification(message) {
-            const notification = document.createElement('div');
-            notification.className = 'notification';
-            notification.innerHTML = message;
-            document.body.appendChild(notification);
-            
-            setTimeout(() => {
-                notification.remove();
-            }, 3000);
-        }
-    </script>
+    }
+}
+
+function loadRecipes() {
+    const recipesRef = collection(db, 'recipes');
+    onSnapshot(recipesRef, (snapshot) => {
+        snapshot.forEach(doc => {
+            console.log('Recipe:', doc.data());
+        });
+    });
+}
+
+function showNotification(message) {
+    const notification = document.createElement('div');
+    notification.className = 'notification';
+    notification.innerHTML = message;
+    document.body.appendChild(notification);
+    setTimeout(() => notification.remove(), 3000);
+}
+</script>
 </body>
 </html>
