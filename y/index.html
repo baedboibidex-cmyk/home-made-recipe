@@ -5,8 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home Made Recipe - Social Cooking Platform</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#ff6b6b">
     <!-- Firebase SDKs -->
-                    <style>
+    <style>
         :root {
             --primary: #ff6b6b;
             --secondary: #4ecdc4;
@@ -2768,10 +2770,8 @@
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
-import { getFirestore, collection, addDoc, serverTimestamp, onSnapshot } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
-// import { getStorage } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-storage.js";
+import { getFirestore, collection, addDoc, serverTimestamp, onSnapshot, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
 
-// 🔥 REPLACE THIS SECTION WITH YOUR ACTUAL FIREBASE CONFIG
 const firebaseConfig = {
     apiKey: "YOUR_API_KEY",
     authDomain: "YOUR_PROJECT.firebaseapp.com",
@@ -2785,21 +2785,30 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// DOM Elements
 const tabs = document.querySelectorAll('.tab');
 const tabContents = document.querySelectorAll('.tab-content');
 const userProfile = document.getElementById('userProfile');
 const dropdownMenu = document.getElementById('dropdownMenu');
 const darkModeToggle = document.getElementById('darkModeToggle');
 const darkModeToggleBtn = document.getElementById('darkModeToggleBtn');
+const premiumBtn = document.getElementById('premiumBtn');
+const searchInput = document.getElementById('searchInput');
+const savedRecipesLink = document.getElementById('savedRecipes');
+const saveButtons = document.querySelectorAll('.save-btn');
+const viewRecipeButtons = document.querySelectorAll('.view-recipe');
 
-// Initialize app
-document.addEventListener('DOMContentLoaded', initApp);
+let deferredInstallPrompt = null;
+
+const demoMode = firebaseConfig.apiKey.includes('YOUR_API_KEY');
 
 function initApp() {
     setupEventListeners();
     checkDarkMode();
     checkUserAuth();
+    loadLocalSavedState();
+    if (!demoMode) {
+        loadRecipes();
+    }
 }
 
 function setupEventListeners() {
@@ -2809,23 +2818,65 @@ function setupEventListeners() {
             tabs.forEach(t => t.classList.remove('active'));
             tab.classList.add('active');
             tabContents.forEach(content => content.classList.remove('active'));
-            document.getElementById(`${tabId}-content`).classList.add('active');
+            const target = document.getElementById(`${tabId}-content`);
+            if (target) target.classList.add('active');
         });
     });
-    darkModeToggle.addEventListener('click', toggleDarkMode);
-    darkModeToggleBtn.addEventListener('click', toggleDarkMode);
-    userProfile.addEventListener('click', () => {
-        dropdownMenu.classList.toggle('active');
+
+    if (darkModeToggle) {
+        darkModeToggle.addEventListener('click', toggleDarkMode);
+    }
+
+    if (darkModeToggleBtn) {
+        darkModeToggleBtn.addEventListener('click', toggleDarkMode);
+    }
+
+    if (premiumBtn) {
+        premiumBtn.addEventListener('click', () => {
+            showNotification('Premium upgrade coming soon!');
+        });
+    }
+
+    saveButtons.forEach(button => {
+        button.addEventListener('click', handleSaveButton);
     });
+
+    viewRecipeButtons.forEach(button => {
+        button.addEventListener('click', handleViewRecipe);
+    });
+
+    if (searchInput) {
+        searchInput.addEventListener('input', throttle(filterRecipes, 150));
+    }
+
+    if (savedRecipesLink) {
+        savedRecipesLink.addEventListener('click', (event) => {
+            event.preventDefault();
+            showSavedRecipes();
+        });
+    }
+
     document.addEventListener('click', (e) => {
-        if (!userProfile.contains(e.target) && !dropdownMenu.contains(e.target)) {
+        if (dropdownMenu && userProfile && !userProfile.contains(e.target) && !dropdownMenu.contains(e.target)) {
             dropdownMenu.classList.remove('active');
         }
     });
 }
 
+function throttle(fn, wait) {
+    let last = 0;
+    return (...args) => {
+        const now = Date.now();
+        if (now - last >= wait) {
+            last = now;
+            fn(...args);
+        }
+    };
+}
+
 function checkDarkMode() {
-    if (localStorage.getItem('darkMode') === 'true') {
+    const isDark = localStorage.getItem('darkMode') === 'true';
+    if (isDark) {
         document.body.classList.add('dark-mode');
         updateDarkModeIcon(true);
     }
@@ -2839,19 +2890,17 @@ function toggleDarkMode() {
 
 function updateDarkModeIcon(isDarkMode) {
     const iconHtml = isDarkMode ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
-    darkModeToggle.innerHTML = iconHtml;
-    darkModeToggleBtn.innerHTML = iconHtml;
+    if (darkModeToggle) darkModeToggle.innerHTML = iconHtml;
+    if (darkModeToggleBtn) darkModeToggleBtn.innerHTML = iconHtml;
 }
 
 function checkUserAuth() {
     const isLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
     if (isLoggedIn) {
-        const email = localStorage.getItem('userEmail');
-        userProfile.textContent = email.charAt(0).toUpperCase();
+        const email = localStorage.getItem('userEmail') || 'Guest';
+        if (userProfile) userProfile.textContent = email.charAt(0).toUpperCase();
     } else {
-        setTimeout(() => {
-            showLoginModal();
-        }, 2000);
+        setTimeout(showLoginModal, 1200);
     }
 }
 
@@ -2887,62 +2936,168 @@ function showLoginModal() {
 function handleLogin(modal) {
     const email = modal.querySelector('#email').value;
     const password = modal.querySelector('#password').value;
-    if (email && password) {
-        signInWithEmailAndPassword(auth, email, password)
-            .then(() => {
-                localStorage.setItem('userLoggedIn', 'true');
-                localStorage.setItem('userEmail', email);
-                userProfile.textContent = email.charAt(0).toUpperCase();
-                dropdownMenu.classList.add('active');
-                modal.remove();
-                showNotification(`✓ Welcome back, ${email.split('@')[0]}!`);
-            })
-            .catch((error) => {
-                showNotification(`❌ ${error.message}`);
-            });
+    if (!email || !password) {
+        showNotification('Please enter both email and password.');
+        return;
     }
+    if (demoMode) {
+        simulateLogin(email);
+        modal.remove();
+        return;
+    }
+    signInWithEmailAndPassword(auth, email, password)
+        .then(() => {
+            simulateLogin(email);
+            modal.remove();
+            showNotification(`✓ Welcome back, ${email.split('@')[0]}!`);
+        })
+        .catch((error) => {
+            showNotification(`❌ ${error.message}`);
+        });
 }
 
 function handleSignup(modal) {
     const email = modal.querySelector('#email').value;
     const password = modal.querySelector('#password').value;
-    if (email && password && password.length >= 6) {
-        createUserWithEmailAndPassword(auth, email, password)
-            .then(() => {
-                localStorage.setItem('userLoggedIn', 'true');
-                localStorage.setItem('userEmail', email);
-                userProfile.textContent = email.charAt(0).toUpperCase();
-                dropdownMenu.classList.add('active');
-                modal.remove();
-                showNotification(`✓ Account created for ${email.split('@')[0]}!`);
-            })
-            .catch((error) => {
-                showNotification(`❌ ${error.message}`);
-            });
+    if (!email || !password || password.length < 6) {
+        showNotification('Please use a valid email and password of at least 6 characters.');
+        return;
+    }
+    if (demoMode) {
+        simulateLogin(email);
+        modal.remove();
+        return;
+    }
+    createUserWithEmailAndPassword(auth, email, password)
+        .then(() => {
+            simulateLogin(email);
+            modal.remove();
+            showNotification(`✓ Account created for ${email.split('@')[0]}!`);
+        })
+        .catch((error) => {
+            showNotification(`❌ ${error.message}`);
+        });
+}
+
+function simulateLogin(email) {
+    localStorage.setItem('userLoggedIn', 'true');
+    localStorage.setItem('userEmail', email);
+    if (userProfile) userProfile.textContent = email.charAt(0).toUpperCase();
+    if (dropdownMenu) dropdownMenu.classList.add('active');
+}
+
+function handleSaveButton(event) {
+    const button = event.currentTarget;
+    const card = button.closest('.recipe-card');
+    if (!card) return;
+    const recipeData = extractRecipeData(card);
+    if (!recipeData) return;
+    saveRecipe(recipeData);
+    button.classList.toggle('active');
+}
+
+function extractRecipeData(card) {
+    const recipeId = card.dataset.recipe || card.querySelector('.recipe-title')?.textContent?.trim();
+    const title = card.querySelector('.recipe-title')?.textContent?.trim();
+    const description = card.querySelector('.recipe-desc')?.textContent?.trim();
+    const imageStyle = card.querySelector('.recipe-img')?.style.backgroundImage || '';
+    const imageUrl = imageStyle.replace('url(', '').replace(')', '').replace(/"/g, '').trim();
+    if (!title) return null;
+    return { id: recipeId, title, description, imageUrl, savedAt: new Date().toISOString() };
+}
+
+function saveRecipe(recipeData) {
+    if (!recipeData) return;
+    if (demoMode) {
+        saveLocalRecipe(recipeData);
+        return;
+    }
+    const user = auth.currentUser;
+    if (!user) {
+        showNotification('Please log in before saving recipes.');
+        return;
+    }
+    addDoc(collection(db, 'recipes'), {
+        ...recipeData,
+        userId: user.uid,
+        timestamp: serverTimestamp()
+    }).then(() => {
+        showNotification('Recipe saved to your collection!');
+        markRecipeSaved(recipeData.id);
+    }).catch((error) => {
+        console.error('Error adding recipe:', error);
+        showNotification('Unable to save recipe.');
+    });
+}
+
+function saveLocalRecipe(recipeData) {
+    const saved = JSON.parse(localStorage.getItem('savedRecipes') || '[]');
+    const exists = saved.some(item => item.id === recipeData.id);
+    if (!exists) {
+        saved.push(recipeData);
+        localStorage.setItem('savedRecipes', JSON.stringify(saved));
+        showNotification('Recipe saved locally!');
+        markRecipeSaved(recipeData.id);
+    } else {
+        showNotification('Recipe already saved.');
     }
 }
 
-async function saveRecipe(recipeData) {
-    const user = auth.currentUser;
-    if (user) {
-        try {
-            await addDoc(collection(db, 'recipes'), {
-                ...recipeData,
-                userId: user.uid,
-                timestamp: serverTimestamp()
-            });
-        } catch (e) {
-            console.error('Error adding recipe:', e);
-        }
+function markRecipeSaved(recipeId) {
+    const button = document.querySelector(`.save-btn[data-recipe="${CSS.escape(recipeId)}"]`);
+    if (button) button.classList.add('active');
+}
+
+function loadLocalSavedState() {
+    const saved = JSON.parse(localStorage.getItem('savedRecipes') || '[]');
+    saved.forEach(recipe => {
+        markRecipeSaved(recipe.id);
+    });
+}
+
+function showSavedRecipes() {
+    const saved = JSON.parse(localStorage.getItem('savedRecipes') || '[]');
+    if (saved.length === 0) {
+        showNotification('You have no saved recipes yet.');
+        return;
     }
+    showNotification(`You have ${saved.length} saved recipe(s). Open the Recipes tab to view them.`);
+    const recipesTab = document.querySelector('.tab[data-tab="recipes"]');
+    if (recipesTab) recipesTab.click();
+}
+
+function handleViewRecipe(event) {
+    const button = event.currentTarget;
+    const card = button.closest('.recipe-card');
+    if (!card) return;
+    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    card.classList.add('highlight');
+    setTimeout(() => card.classList.remove('highlight'), 1500);
+}
+
+function filterRecipes(event) {
+    const queryText = event.target.value.toLowerCase();
+    const cards = document.querySelectorAll('.recipe-card');
+    cards.forEach(card => {
+        const title = card.querySelector('.recipe-title')?.textContent?.toLowerCase() || '';
+        const desc = card.querySelector('.recipe-desc')?.textContent?.toLowerCase() || '';
+        const show = title.includes(queryText) || desc.includes(queryText);
+        card.style.display = show ? '' : 'none';
+    });
 }
 
 function loadRecipes() {
     const recipesRef = collection(db, 'recipes');
-    onSnapshot(recipesRef, (snapshot) => {
-        snapshot.forEach(doc => {
-            console.log('Recipe:', doc.data());
+    const q = query(recipesRef, orderBy('timestamp', 'desc'), limit(20));
+    onSnapshot(q, (snapshot) => {
+        snapshot.docChanges().forEach(change => {
+            if (change.type === 'added' || change.type === 'modified') {
+                const recipe = change.doc.data();
+                console.log('Recipe loaded:', recipe);
+            }
         });
+    }, (error) => {
+        console.error('Firestore load error:', error);
     });
 }
 
@@ -2953,6 +3108,43 @@ function showNotification(message) {
     document.body.appendChild(notification);
     setTimeout(() => notification.remove(), 3000);
 }
+
+function registerServiceWorker() {
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('./sw.js')
+                .then(reg => console.log('Service worker registered:', reg.scope))
+                .catch(err => console.warn('Service worker failed:', err));
+        });
+    }
+}
+
+window.addEventListener('beforeinstallprompt', (event) => {
+    event.preventDefault();
+    deferredInstallPrompt = event;
+    const installPrompt = document.createElement('button');
+    installPrompt.id = 'installAppBtn';
+    installPrompt.className = 'btn install-btn';
+    installPrompt.textContent = 'Install App';
+    installPrompt.style.position = 'fixed';
+    installPrompt.style.bottom = '20px';
+    installPrompt.style.right = '20px';
+    installPrompt.style.zIndex = '9999';
+    document.body.appendChild(installPrompt);
+    installPrompt.addEventListener('click', async () => {
+        deferredInstallPrompt.prompt();
+        const choiceResult = await deferredInstallPrompt.userChoice;
+        if (choiceResult.outcome === 'accepted') {
+            showNotification('App installation accepted');
+        } else {
+            showNotification('App installation dismissed');
+        }
+        installPrompt.remove();
+        deferredInstallPrompt = null;
+    });
+});
+
+initApp();
 </script>
 </body>
 </html>
