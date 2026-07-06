@@ -1,0 +1,32 @@
+name: Capture Browser Console
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'scripts/capture-console.js'
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install puppeteer --no-audit --no-fund
+
+      - name: Run capture script
+        run: |
+          node scripts/capture-console.js https://home-made-recipe-c857f.web.app > console-output.txt 2>&1 || true
+
+      - name: Upload logs
+        uses: actions/upload-artifact@v4
+        with:
+          name: console-logs
+          path: console-output.txt
