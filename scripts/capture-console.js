@@ -28,7 +28,7 @@ const puppeteer = require('puppeteer');
   }
 
   // Wait a bit for any async errors
-  await page.waitForTimeout(3000);
+  await new Promise(r => setTimeout(r, 3000));
   // Touchfile: updated to trigger CI run at 2026-07-06
   // (no functional changes)
   await browser.close();
