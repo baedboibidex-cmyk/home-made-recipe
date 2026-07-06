@@ -2,6 +2,14 @@
   "projects": {
     "default": "home-made-recipe-c857f"
   },
-  "targets": {},
+  "targets": {
+    "home-made-recipe-c857f": {
+      "hosting": {
+        "default": [
+          "home-made-recipe-c857f"
+        ]
+      }
+    }
+  },
   "etags": {}
 }
