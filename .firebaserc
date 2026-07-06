@@ -1,5 +1,7 @@
 {
   "projects": {
     "default": "home-made-recipe-c857f"
-  }
+  },
+  "targets": {},
+  "etags": {}
 }
