@@ -56,6 +56,9 @@ node_modules/
 # Optional REPL history
 .node_repl_history
 
+# Local capture artifacts
+artifacts/
+
 # Output of 'npm pack'
 *.tgz
 
