@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home Made Recipe - Social Cooking Platform</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-storage.js"></script>
     <style>
         :root {
             --primary: #ff6b6b;
@@ -18,235 +23,238 @@
             --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             --radius: 12px;
             --transition: all 0.3s ease;
-            --body-bg: #f5f7fa;
-            --text-color: #2f3542;
-            --video-bg: #121212;
-            --video-text: #e0e0e0;
-        }
-        
-        .dark-mode {
-            --body-bg: #121212;
-            --text-color: #e0e0e0;
-            --primary: #ff5252;
-            --secondary: #00cec9;
-            --dark: #1e1e1e;
-            --light: #2d2d2d;
-            --gray: #888;
-            --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            --video-bg: #000000;
-            --video-text: #ffffff;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--body-bg);
-            color: var(--text-color);
-            line-height: 1.6;
-            padding-bottom: 80px;
-            overflow-x: hidden;
-            transition: var(--transition);
-        }
-        
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 15px;
-        }
-        
-        /* Navigation & Header */
-        header {
-            background: linear-gradient(120deg, var(--dark), #1e2734);
-            color: white;
-            padding: 1.5rem 0;
-            box-shadow: var(--shadow);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .dark-mode header {
-            background: linear-gradient(120deg, #1a1a2e, #16213e);
-        }
-        
-        .logo {
-            display: flex;
-            align-items: center;
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: white;
-        }
-        
-        .logo i {
-            margin-right: 10px;
-            color: var(--secondary);
-        }
-        
-        .dark-mode .logo i {
-            color: var(--secondary);
-        }
-        
-        .search-bar {
-            flex-grow: 1;
-            max-width: 500px;
-            margin: 0 30px;
-            position: relative;
-        }
-        
-        .search-bar input {
-            width: 100%;
-            padding: 12px 20px 12px 45px;
-            border-radius: 50px;
-            border: none;
-            background: rgba(255, 255, 255, 0.15);
-            color: white;
-            font-size: 1rem;
-            transition: var(--transition);
-        }
-        
-        .search-bar input::placeholder {
-            color: rgba(255, 255, 255, 0.7);
-        }
-        
-        .search-bar input:focus {
-            background: rgba(255, 255, 255, 0.25);
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
-        }
-        
-        .search-bar i {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: rgba(255, 255, 255, 0.7);
-        }
-        
-        .user-actions {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .premium-badge {
-            background: var(--premium-gold);
-            color: white;
-            padding: 3px 10px;
-            border-radius: 15px;
-            font-size: 0.85rem;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        }
-        
-        .dark-mode .premium-badge {
-            background: #b89d2e;
-        }
-        
-        .btn {
-            background: var(--secondary);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: var(--transition);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 10px rgba(78, 205, 196, 0.3);
-        }
-        
-        .dark-mode .btn {
-            box-shadow: 0 4px 10px rgba(0, 206, 201, 0.3);
-        }
-        
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(78, 205, 196, 0.4);
-        }
-        
-        .dark-mode .btn:hover {
-            box-shadow: 0 6px 15px rgba(0, 206, 201, 0.4);
-        }
-        
-        .btn-primary {
-            background: var(--primary);
-            box-shadow: 0 4px 10px rgba(255, 107, 107, 0.3);
-        }
-        
-        .btn-primary:hover {
-            box-shadow: 0 6px 15px rgba(255, 107, 107, 0.4);
-        }
-        
-        .dark-mode .btn-primary {
-            background: var(--primary);
-            box-shadow: 0 4px 10px rgba(255, 82, 82, 0.3);
-        }
-        
-        .dark-mode .btn-primary:hover {
-            box-shadow: 0 6px 15px rgba(255, 82, 82, 0.4);
-        }
-        
-        .btn-premium {
-            background: var(--premium-gold);
-            color: var(--dark);
-            box-shadow: 0 4px 10px rgba(212, 175, 55, 0.3);
-        }
-        
-        .btn-premium:hover {
-            box-shadow: 0 6px 15px rgba(212, 175, 55, 0.4);
-            transform: translateY(-2px);
-        }
-        
-        .dark-mode .btn-premium {
-            background: #b89d2e;
-            color: #e0e0e0;
-            box-shadow: 0 4px 10px rgba(184, 157, 46, 0.3);
-        }
-        
-        .dark-mode .btn-premium:hover {
-            box-shadow: 0 6px 15px rgba(184, 157, 46, 0.4);
-        }
-        
-        .btn i {
-            margin-right: 8px;
-        }
-        
-        .user-menu {
-            position: relative;
-        }
-        
-        .user-profile {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--secondary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        
-        .user-profile:hover {
-            transform: scale(1.05);
-        }
-        
+            <script type="module">
+                // Add these imports at the very top of your script section
+                import { initializeApp } from "firebase/app";
+                import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
+                import { getFirestore, collection, addDoc, serverTimestamp, onSnapshot } from "firebase/firestore";
+
+                // 🔥 REPLACE THIS SECTION WITH YOUR ACTUAL FIREBASE CONFIG
+                const firebaseConfig = {
+                    apiKey: "YOUR_API_KEY",
+                    authDomain: "YOUR_PROJECT.firebaseapp.com",
+                    projectId: "YOUR_PROJECT",
+                    storageBucket: "YOUR_PROJECT.appspot.com",
+                    messagingSenderId: "YOUR_MESSAGING_ID",
+                    appId: "YOUR_APP_ID"
+                };
+
+                // Initialize Firebase (using modular SDK)
+                const app = initializeApp(firebaseConfig);
+                const auth = getAuth(app);
+                const db = getFirestore(app);
+
+                // DOM Elements
+                const tabs = document.querySelectorAll('.tab');
+                const tabContents = document.querySelectorAll('.tab-content');
+                const userProfile = document.getElementById('userProfile');
+                const dropdownMenu = document.getElementById('dropdownMenu');
+                const darkModeToggle = document.getElementById('darkModeToggle');
+                const darkModeToggleBtn = document.getElementById('darkModeToggleBtn');
+
+                // Initialize app
+                document.addEventListener('DOMContentLoaded', initApp);
+
+                function initApp() {
+                    setupEventListeners();
+                    checkDarkMode();
+                    checkUserAuth();
+                }
+
+                function setupEventListeners() {
+                    // Tab switching
+                    tabs.forEach(tab => {
+                        tab.addEventListener('click', () => {
+                            const tabId = tab.getAttribute('data-tab');
+
+                            // Update active tab
+                            tabs.forEach(t => t.classList.remove('active'));
+                            tab.classList.add('active');
+
+                            // Show corresponding content
+                            tabContents.forEach(content => content.classList.remove('active'));
+                            document.getElementById(`${tabId}-content`).classList.add('active');
+                        });
+                    });
+
+                    // Dark mode toggle
+                    darkModeToggle.addEventListener('click', toggleDarkMode);
+                    darkModeToggleBtn.addEventListener('click', toggleDarkMode);
+
+                    // User profile dropdown
+                    userProfile.addEventListener('click', () => {
+                        dropdownMenu.classList.toggle('active');
+                    });
+
+                    // Close dropdown when clicking outside
+                    document.addEventListener('click', (e) => {
+                        if (!userProfile.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                            dropdownMenu.classList.remove('active');
+                        }
+                    });
+                }
+
+                function checkDarkMode() {
+                    if (localStorage.getItem('darkMode') === 'true') {
+                        document.body.classList.add('dark-mode');
+                        updateDarkModeIcon(true);
+                    }
+                }
+
+                function toggleDarkMode() {
+                    const isDarkMode = document.body.classList.toggle('dark-mode');
+                    localStorage.setItem('darkMode', isDarkMode);
+                    updateDarkModeIcon(isDarkMode);
+                }
+
+                function updateDarkModeIcon(isDarkMode) {
+                    const iconHtml = isDarkMode ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+                    darkModeToggle.innerHTML = iconHtml;
+                    darkModeToggleBtn.innerHTML = iconHtml;
+                }
+
+                function checkUserAuth() {
+                    // Check if user is logged in
+                    const isLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
+                    if (isLoggedIn) {
+                        const email = localStorage.getItem('userEmail');
+                        userProfile.textContent = email.charAt(0).toUpperCase();
+                    } else {
+                        // Show login modal after 2 seconds
+                        setTimeout(() => {
+                            showLoginModal();
+                        }, 2000);
+                    }
+                }
+
+                function showLoginModal() {
+                    // Create login modal
+                    const modal = document.createElement('div');
+                    modal.className = 'modal active';
+                    modal.innerHTML = `
+                        <div class="modal-content">
+                            <button class="modal-close">&times;</button>
+                            <h2 class="modal-title">Login to Your Account</h2>
+                            <form class="login-form">
+                                <div class="form-group">
+                                    <label for="email">Email Address</label>
+                                    <input type="email" id="email" placeholder="your@email.com" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="password">Password</label>
+                                    <input type="password" id="password" placeholder="••••••••" required>
+                                </div>
+                                <div class="auth-buttons">
+                                    <button type="button" class="auth-btn login-btn">Login</button>
+                                    <button type="button" class="auth-btn signup-btn">Sign Up</button>
+                                </div>
+                            </form>
+                        </div>
+                    `;
+
+                    document.body.appendChild(modal);
+
+                    // Setup modal events
+                    modal.querySelector('.modal-close').addEventListener('click', () => {
+                        modal.remove();
+                    });
+
+                    modal.querySelector('.login-btn').addEventListener('click', () => {
+                        handleLogin(modal);
+                    });
+
+                    modal.querySelector('.signup-btn').addEventListener('click', () => {
+                        handleSignup(modal);
+                    });
+                }
+
+                // 🔥 Firebase Login Function (modular)
+                function handleLogin(modal) {
+                    const email = modal.querySelector('#email').value;
+                    const password = modal.querySelector('#password').value;
+
+                    if (email && password) {
+                        // Use Firebase Modular Auth
+                        signInWithEmailAndPassword(auth, email, password)
+                            .then((userCredential) => {
+                                // Signed in
+                                localStorage.setItem('userLoggedIn', 'true');
+                                localStorage.setItem('userEmail', email);
+
+                                // Update UI
+                                userProfile.textContent = email.charAt(0).toUpperCase();
+                                dropdownMenu.classList.add('active');
+                                modal.remove();
+                                showNotification(`✓ Welcome back, ${email.split('@')[0]}!`);
+                            })
+                            .catch((error) => {
+                                showNotification(`❌ ${error.message}`);
+                            });
+                    }
+                }
+
+                // 🔥 Firebase Signup Function (modular)
+                function handleSignup(modal) {
+                    const email = modal.querySelector('#email').value;
+                    const password = modal.querySelector('#password').value;
+
+                    if (email && password && password.length >= 6) {
+                        createUserWithEmailAndPassword(auth, email, password)
+                            .then((userCredential) => {
+                                // Signed up
+                                localStorage.setItem('userLoggedIn', 'true');
+                                localStorage.setItem('userEmail', email);
+
+                                // Update UI
+                                userProfile.textContent = email.charAt(0).toUpperCase();
+                                dropdownMenu.classList.add('active');
+                                modal.remove();
+                                showNotification(`✓ Account created for ${email.split('@')[0]}!`);
+                            })
+                            .catch((error) => {
+                                showNotification(`❌ ${error.message}`);
+                            });
+                    }
+                }
+
+                // 🔥 Save recipe to database (modular Firestore)
+                async function saveRecipe(recipeData) {
+                    const user = auth.currentUser;
+
+                    if (user) {
+                        try {
+                            await addDoc(collection(db, 'recipes'), {
+                                ...recipeData,
+                                userId: user.uid,
+                                timestamp: serverTimestamp()
+                            });
+                        } catch (e) {
+                            console.error('Error adding recipe:', e);
+                        }
+                    }
+                }
+
+                // 🔥 Get all recipes (modular Firestore)
+                function loadRecipes() {
+                    const recipesRef = collection(db, 'recipes');
+                    onSnapshot(recipesRef, (snapshot) => {
+                        snapshot.forEach(doc => {
+                            console.log('Recipe:', doc.data());
+                        });
+                    });
+                }
+
+                function showNotification(message) {
+                    const notification = document.createElement('div');
+                    notification.className = 'notification';
+                    notification.innerHTML = message;
+                    document.body.appendChild(notification);
+
+                    setTimeout(() => {
+                        notification.remove();
+                    }, 3000);
+                }
+            </script>
         .dark-mode .user-profile {
             background: var(--secondary);
         }
