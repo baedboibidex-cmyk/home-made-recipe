@@ -16,16 +16,21 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: 18
 
       - name: Install firebase-tools
         run: npm install -g firebase-tools
 
+      - name: Write service account key
+        run: |
+          echo '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON }}' > ${{ github.workspace }}/firebase-key.json
+
+      - name: Authenticate
+        run: |
+          echo "GOOGLE_APPLICATION_CREDENTIALS=${{ github.workspace }}/firebase-key.json" >> $GITHUB_ENV
+
       - name: Deploy to Firebase Hosting
-        env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
         run: |
           firebase deploy \
             --project home-made-recipe-c857f \
-            --only hosting \
-            --token "$FIREBASE_TOKEN"
+            --only hosting
