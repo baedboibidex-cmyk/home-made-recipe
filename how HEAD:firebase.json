@@ -1,6 +1,5 @@
 {
   "hosting": {
-    "site": "home-made-recipe-c857f",
     "public": "y",
     "ignore": [
       "firebase.json",
